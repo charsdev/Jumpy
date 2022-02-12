@@ -1,0 +1,9 @@
+Jumpy es un juego de plataformas donde debera recolectar zanahorias
+a medida que va esquivando enemigos y obstaculos en el bosque
+
+
+Izquierda -> A o Flecha Izquierda
+Derecha -> D o Flecha Derecha
+SuperSalto -> S
+Salto -> Espacio
+Mouse -> Destino del supersalto

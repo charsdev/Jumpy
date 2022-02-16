@@ -13,12 +13,14 @@ namespace Chars
         List<IPooleable> _pooleablesObjects = new List<IPooleable>();
         private BoxCollider2D  _collider;
         public ContactFilter2D contactFilter = new ContactFilter2D();
-        [SerializeField] private bool _poolObjects;
+        public bool OnStart;
+
 
         private void Start()
         {
             _collider = GetComponent<BoxCollider2D>();
             _pooleablesObjects = GetPooleablesObjects();
+            OnStart = true;
         }
 
         private void OnTriggerEnter2D(Collider2D collision)
@@ -26,6 +28,10 @@ namespace Chars
             if (collision.CompareTag("Player"))
             {
                 CurrentRoom = true;
+                foreach (var pooleableObject in _pooleablesObjects)
+                {
+                    pooleableObject.Capture();
+                }
             }
         }
 
@@ -34,32 +40,27 @@ namespace Chars
             if (collision.CompareTag("Player"))
             {
                 CurrentRoom = false;
+                
+                foreach (var pooleableObject in _pooleablesObjects)
+                {
+                    pooleableObject.Release();
+                }
+
             }
         }
 
         private void Update() 
         {
-            Camera.gameObject.SetActive(CurrentRoom);
-
-            if (!_poolObjects)
-            {
-                return;
-            }
-
-            if (!CurrentRoom)
+            if (!CurrentRoom && OnStart)
             {
                 foreach (var pooleableObject in _pooleablesObjects)
                 {
                     pooleableObject.Release();
                 }
+                OnStart = false;
             }
-            else
-            {
-                foreach (var pooleableObject in _pooleablesObjects)
-                {
-                    pooleableObject.Capture();
-                }
-            }
+
+            Camera.gameObject.SetActive(CurrentRoom);
         }
 
         private List<IPooleable> GetPooleablesObjects()

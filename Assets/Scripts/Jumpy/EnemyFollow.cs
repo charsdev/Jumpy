@@ -3,7 +3,7 @@ using Chars.Tools;
 
 namespace Jumpy
 {
-    public class EnemyFollow : MonoBehaviour, IPooleable
+    public class EnemyFollow : MonoBehaviour, IPooleable, IKilleable
     {
         public Transform Target;
         public float Speed;
@@ -18,6 +18,11 @@ namespace Jumpy
         public void Release()
         {
             ObjectPool.Instance.ReturnToPool(gameObject, "EnemyFollow");
+        }
+
+        public void Die()
+        {
+            Release();
         }
 
         private void Start()

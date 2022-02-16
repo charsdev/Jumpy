@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Jumpy
 {
-    public class EnemyPatrol : MonoBehaviour, IPooleable
+    public class EnemyPatrol : MonoBehaviour, IPooleable, IKilleable
     {
         [SerializeField] private List<Transform> _points = new List<Transform>();
         [SerializeField] private Transform _target;
@@ -14,9 +14,19 @@ namespace Jumpy
         private int _index = 0;
         [SerializeField] private float costOfTime = 5f;
 
+        public enum CharacterState { Idle, Dead }
+        public CharacterState characterState;
+
+
         public void Capture()
         {
             ObjectPool.Instance.CaptureFromPool(gameObject, "EnemyPatrol");
+        }
+
+        public void Die()
+        {
+            characterState = CharacterState.Dead;
+            Release();
         }
 
         public void Release()

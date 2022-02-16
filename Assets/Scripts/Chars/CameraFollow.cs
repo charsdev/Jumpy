@@ -9,10 +9,6 @@ namespace Chars.Tools
         public BoxCollider2D _boundary;
         public Vector2 _min, _max;
 
-        private void OnEnable()
-        {
-        }
-
         private void Start()
         {
             _boundary = GetComponentInParent<BoxCollider2D>();

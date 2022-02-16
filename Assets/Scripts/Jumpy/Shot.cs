@@ -1,29 +1,30 @@
 using UnityEngine;
+using Chars.Tools;
 
 namespace Jumpy
 {
-    public class Shot : MonoBehaviour
+    public class Shot : MonoBehaviour, IPooleable
     {
         public float Speed;
+        private void Update() => Move();
+        private void Move() => transform.position += transform.right * Speed * Time.deltaTime;
+        private void OnTriggerEnter2D(Collider2D collision) => CollisionHandle();
+        private void OnCollisionEnter2D(Collision2D collision) => CollisionHandle();
 
-        private void Update() => transform.position += transform.right * Speed * Time.deltaTime;
-
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void CollisionHandle()
         {
-            CollisionHandle(collision.gameObject);
+            Release();
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        public void Release()
         {
-            CollisionHandle(collision.gameObject);
+            ObjectPool.Instance.ReturnToPool(gameObject, "Shot");
         }
 
-        private void CollisionHandle(GameObject go)
+        public void Capture()
         {
-            Debug.Log(go.name);
-            Destroy(gameObject);
+            Debug.Log($"Capture {gameObject.name}", this);
         }
-
     }
 
 }

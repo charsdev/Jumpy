@@ -72,7 +72,7 @@ namespace Chars
                 charIndex = Mathf.FloorToInt(t);
                 charIndex = Mathf.Clamp(charIndex, 0, textToType.Length);
 
-                for (int i = lastCharIndex; i < charIndex; i++)
+                for (int i = charIndex - 1; i >= lastCharIndex; i--)
                 {
                     bool isLast = i >= textToType.Length - 1;
 

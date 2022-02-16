@@ -9,11 +9,18 @@ public class GameManager : Singleton<GameManager>
     public bool GameIsPaused;
     public bool IsInputEnabled = true;
     public Image PausePanel;
+    public GameObject player;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
 
     protected void Start()
     {
         SetGameState(Status.BeforeGameStart);
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 300;
     }
 
     public void SetGameState(Status state) => CurrentStatus = state;
@@ -56,7 +63,7 @@ public class GameManager : Singleton<GameManager>
         IsInputEnabled = value;
     }
 
-private void PauseGame()
+    private void PauseGame()
     {
         Time.timeScale = GameIsPaused ? 0 : 1;
         PausePanel.gameObject.SetActive(!PausePanel.gameObject.activeInHierarchy);

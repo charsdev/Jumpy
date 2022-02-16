@@ -1,17 +1,28 @@
+using Chars.Tools;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Jumpy
 {
-    public class EnemyPatrol : MonoBehaviour
+    public class EnemyPatrol : MonoBehaviour, IPooleable
     {
-        [SerializeField] private List<Transform> _points;
+        [SerializeField] private List<Transform> _points = new List<Transform>();
         [SerializeField] private Transform _target;
         [SerializeField] private float _speed = 5f;
         private Rigidbody2D _rigidbody2D;
         [SerializeField] private float _timeToSide = 0;
         private int _index = 0;
         [SerializeField] private float costOfTime = 5f;
+
+        public void Capture()
+        {
+            ObjectPool.Instance.CaptureFromPool(gameObject, "EnemyPatrol");
+        }
+
+        public void Release()
+        {
+            ObjectPool.Instance.ReturnToPool(gameObject, "EnemyPatrol");
+        }
 
         private void Start()
         {

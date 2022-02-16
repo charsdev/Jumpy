@@ -3,21 +3,31 @@ using Chars.Tools;
 
 namespace Jumpy
 {
-    public class EnemyFollow : MonoBehaviour
+    public class EnemyFollow : MonoBehaviour, IPooleable
     {
         public Transform Target;
         public float Speed;
         private Rigidbody2D _rigidbody2D;
         private SpriteRenderer _spriteRenderer;
-        void Start()
+
+        public void Capture()
+        {
+            ObjectPool.Instance.CaptureFromPool(gameObject, "EnemyFollow");
+        }
+
+        public void Release()
+        {
+            ObjectPool.Instance.ReturnToPool(gameObject, "EnemyFollow");
+        }
+
+        private void Start()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
             Target = GameObject.FindGameObjectWithTag("Player").transform;
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        // Update is called once per frame
-        void Update()
+        private void Update()
         {
             Vector2 delta = Target.transform.position - transform.position;
             float deltaX = delta.normalized.x;
@@ -29,8 +39,6 @@ namespace Jumpy
             }
          
             _spriteRenderer.flipX = Target.transform.position.x < transform.position.x;
-
-
         }
     }
 }

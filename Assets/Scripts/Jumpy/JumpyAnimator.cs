@@ -1,3 +1,4 @@
+using Chars;
 using UnityEngine;
 
 namespace Jumpy
@@ -18,9 +19,8 @@ namespace Jumpy
         private bool _playerGrounded;
         private Vector2 _movement;
 
-        void Awake() => _player = GetComponent<JumpyController>();
-
-        void Update()
+        private void Awake() => _player = GetComponent<JumpyController>();
+        private void Update()
         {
             if (GameManager.Instance.GameIsPaused) return;
             if (_player == null) return;

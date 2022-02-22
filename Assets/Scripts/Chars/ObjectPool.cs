@@ -150,7 +150,7 @@ namespace Chars.Tools
 
             if (pool == null)
             {
-                Debug.Log("No se encontro pool creando...");
+                Debug.Log("No se encontro pool creando...", this);
                 var newPool = new Pool(tag, objectToRecycle, 1);
                 _poolsList.Add(newPool);
                 _TagDictionaryToPool.Add(tag, newPool);
@@ -166,8 +166,11 @@ namespace Chars.Tools
         public void CaptureFromPool(GameObject go, string tag)
         {
             var pool = GetPoolFromTag(tag);
-            pool.Pooled.RemoveAll(x => x == go);
+
+            if (pool == null) return;
             
+            pool.Pooled.RemoveAll(x => x == go);
+                
             if (!pool.Instatiated.Contains(go))
                 pool.Instatiated.Add(go);
 

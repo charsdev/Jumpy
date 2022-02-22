@@ -10,7 +10,7 @@ namespace Chars
     {
         public Camera Camera;
         public bool CurrentRoom = false;
-        List<IPooleable> _pooleablesObjects = new List<IPooleable>();
+        private List<IPooleable> _pooleablesObjects = new List<IPooleable>();
         private BoxCollider2D  _collider;
         public ContactFilter2D contactFilter = new ContactFilter2D();
         public bool OnStart;

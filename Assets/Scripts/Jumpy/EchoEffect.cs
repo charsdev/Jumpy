@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Jumpy
+namespace Chars
 {
     public class EchoEffect : MonoBehaviour
     {
@@ -14,7 +14,7 @@ namespace Jumpy
         {
             if (timeBeetweenSpawns <= 0)
             {
-                GameObject instance = GameObject.Instantiate(prefab, transform.position, Quaternion.identity);
+                GameObject instance = Instantiate(prefab, transform.position, Quaternion.identity);
                 Destroy(instance, timeBeetweenDestroy);
                 timeBeetweenSpawns = startTimeBeetweenSpawns;
             }

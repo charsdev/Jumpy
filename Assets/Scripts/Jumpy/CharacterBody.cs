@@ -1,13 +1,13 @@
 using UnityEngine;
-using Chars.Tools;
 using System;
+using Chars.Tools;
 
-namespace Jumpy 
+namespace Chars 
 {
     public class CharacterBody : MonoBehaviour
     {
         public Rigidbody2D Rigidbody2D { get; private set; }
-        public BoxCollider2D BoxCollider2D;
+        public BoxCollider2D BoxCollider2D { get; private set; }
 
         public Vector3 Down { get => _down; }
         public Vector3 Left { get => _left; }
@@ -71,7 +71,6 @@ namespace Jumpy
         public Color DebugCollisionColor = Color.red;
         public float OffsetLength = 0.5f;
         
-        //public readonly Collider2D[] _ground = new Collider2D[1];
         public readonly Collider2D[] _rightWall = new Collider2D[1];
         public readonly Collider2D[] _leftWall = new Collider2D[1];
         public readonly Collider2D[] _aboveWall = new Collider2D[1];
@@ -80,8 +79,6 @@ namespace Jumpy
 
         private void HandleCollision()
         {
-
-            //OnGround = Physics2D.OverlapCircleNonAlloc(transform.position + -transform.up * OffsetLength, collisionRadius, _ground, groundLayer) > 0;
             if (groundBuffer.Length != Sharpness)
             {
                 groundBuffer = new RaycastHit2D[Sharpness];
@@ -95,7 +92,7 @@ namespace Jumpy
 
             OnGround = Array.Exists(groundBuffer, element => element == true);
 
-
+            ///Change with same way as Above
             OnRightWall = Physics2D.OverlapCircleNonAlloc(transform.position + transform.right * OffsetLength, collisionRadius, _rightWall, groundLayer) > 0;
             OnLeftWall = Physics2D.OverlapCircleNonAlloc(transform.position + -transform.right * OffsetLength, collisionRadius, _leftWall, groundLayer) > 0;
             OnAbove = Physics2D.OverlapCircleNonAlloc(transform.position + transform.up * OffsetLength, collisionRadius, _aboveWall, groundLayer) > 0;

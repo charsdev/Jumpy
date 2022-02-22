@@ -1,4 +1,4 @@
-﻿namespace Jumpy
+﻿namespace Chars.Tools
 {
     public interface IKilleable
     {

@@ -1,10 +1,11 @@
 using UnityEngine;
+using Chars;
 
 namespace Jumpy
 {
-    public class JumpyController : MonoBehaviour
+    public class JumpyController : CharacterControllerBase
     {
-        private CharacterBody _characterBody;
+        private const int VerticalMaxHeight = 28;
         public bool OnGround;
         [SerializeField] private float _jumpHeight = 30f;
         private float _deltaX;
@@ -26,38 +27,43 @@ namespace Jumpy
         private float coyoteTime;
         [SerializeField] private bool _enableBunnyHop = false;
 
-        private void Start()
+        protected override void FixedUpdate()
         {
-            _characterBody = GetComponent<CharacterBody>();
+            base.Awake();
+
+            SetJumpHeigth();
+            SetVerticalSpeed();
         }
 
-        private void FixedUpdate()
+        private void SetVerticalSpeed()
         {
-
-            if (_characterBody.Rigidbody2D.velocity.y < 0)
+            if (CharacterBody.Rigidbody2D.velocity.y < ClampVerticalSpeed)
             {
-                _characterBody.GravityModifier = HighJumpScale;
-            }
-            else if (_characterBody.Rigidbody2D.velocity.y > 0 && JInput.JumpUp)
-            {
-                _characterBody.GravityModifier = LowJumpScale;
+                CharacterBody.Rigidbody2D.velocity = new Vector2(CharacterBody.Rigidbody2D.velocity.x, ClampVerticalSpeed);
             }
 
-            if (_characterBody.Rigidbody2D.velocity.y < ClampVerticalSpeed)
+            if (CharacterBody.Rigidbody2D.velocity.y > VerticalMaxHeight)
             {
-                _characterBody.Rigidbody2D.velocity = new Vector2(_characterBody.Rigidbody2D.velocity.x, ClampVerticalSpeed);
-            }
-
-            if (_characterBody.Rigidbody2D.velocity.y > 28)
-            {
-                _characterBody.Rigidbody2D.velocity = new Vector2(_characterBody.Rigidbody2D.velocity.x, 28);
+                CharacterBody.Rigidbody2D.velocity = new Vector2(CharacterBody.Rigidbody2D.velocity.x, VerticalMaxHeight);
             }
         }
 
-        private void Update()
+        private void SetJumpHeigth()
+        {
+            if (CharacterBody.Rigidbody2D.velocity.y < 0)
+            {
+                CharacterBody.GravityModifier = HighJumpScale;
+            }
+            else if (CharacterBody.Rigidbody2D.velocity.y > 0 && JInput.JumpUp)
+            {
+                CharacterBody.GravityModifier = LowJumpScale;
+            }
+        }
+
+        protected override void Update()
         {
             LandingThisFrame = false;
-            var groundCheck = _characterBody.OnGround;
+            var groundCheck = CharacterBody.OnGround;
             LandingThisFrame = groundCheck && !OnGround;
             OnGround = groundCheck;
             coyoteTime = OnGround ? 0 : coyoteTime + Time.deltaTime;
@@ -70,24 +76,23 @@ namespace Jumpy
                 if (OnGround && Time.time >= _nextBunnyHop && _enableBunnyHop)
                 {
                     _nextBunnyHop = Time.time + _bunnyHopRate;
-                    _characterBody.Rigidbody2D.velocity += (Vector2)_characterBody.Up * _bunnyHop;
+                    CharacterBody.Rigidbody2D.velocity += (Vector2)CharacterBody.Up * _bunnyHop;
                 }
             }
         }
 
         private void WallJump()
         {
-            if (_characterBody.OnWall && !OnGround && JInput.JumpDown)
+            if (CharacterBody.OnWall && !OnGround && JInput.JumpDown)
             {
-                _characterBody.Rigidbody2D.velocity = Vector2.zero;
-                _characterBody.Rigidbody2D.AddForce(new Vector2(_characterBody.wallSide * 15, 30), ForceMode2D.Impulse);
+                CharacterBody.Rigidbody2D.velocity = Vector2.zero;
+                CharacterBody.Rigidbody2D.AddForce(new Vector2(CharacterBody.wallSide * 15, 30), ForceMode2D.Impulse);
             }
         }
 
 
         private void HorizontalMovement()
         {
-        
             if (JInput.HorizontalInput != 0)
             {
                 _deltaX += JInput.HorizontalInput * HorizontalAcceleration * Time.deltaTime;
@@ -100,8 +105,8 @@ namespace Jumpy
 
             if (_deltaX != 0)
             {
-                var idealVel = new Vector3(_deltaX, _characterBody.Rigidbody2D.velocity.y);
-                _characterBody.Rigidbody2D.velocity = Vector2.MoveTowards(_characterBody.Rigidbody2D.velocity, idealVel, HorizontalAcceleration * Time.deltaTime);
+                var idealVel = new Vector3(_deltaX, CharacterBody.Rigidbody2D.velocity.y);
+                CharacterBody.Rigidbody2D.velocity = Vector2.MoveTowards(CharacterBody.Rigidbody2D.velocity, idealVel, HorizontalAcceleration * Time.deltaTime);
             }
         }
 
@@ -109,8 +114,8 @@ namespace Jumpy
         {
             if (JInput.JumpDown && (OnGround || coyoteTime < 0.25f))
             {
-                _characterBody.Rigidbody2D.velocity = Vector2.zero; //force velocity 0;
-                _characterBody.Rigidbody2D.velocity += (Vector2)_characterBody.Up * _jumpHeight;
+                CharacterBody.Rigidbody2D.velocity = Vector2.zero; //force velocity 0;
+                CharacterBody.Rigidbody2D.velocity += (Vector2)CharacterBody.Up * _jumpHeight;
                 JumpingThisFrame = true;
             }
             else
@@ -126,7 +131,6 @@ namespace Jumpy
 
             transform.localScale = new Vector3(1 / value, value, 1 / value);
         }
-
     }
 }
 

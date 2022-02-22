@@ -1,18 +1,20 @@
+using Chars;
 using UnityEngine;
 
 namespace Jumpy
 {
-    public class StickyController : MonoBehaviour
+    public class StickyController : CharacterControllerBase
+
     {
         [SerializeField] private float _rollSpeed = 5;
-        public CharacterBody CharacterBody;
         public Transform Model;
 
-        private void Start() => CharacterBody = GetComponent<CharacterBody>();
-        private void FixedUpdate() => CharacterBody.Rigidbody2D.AddForce(CharacterBody.GravityVector * CharacterBody.GravityModifier);
+        protected override void FixedUpdate() => CharacterBody.Rigidbody2D.AddForce(CharacterBody.GravityVector * CharacterBody.GravityModifier);
 
-        private void Update()
+        protected override void Update()
         {
+            base.Update();
+
             if (CharacterBody.OnLeftWall)
             {
                 CharacterBody.CurrentSide = CharacterBody.Side.LEFT;

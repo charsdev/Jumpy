@@ -13,25 +13,24 @@ namespace Jumpy
 
         private void Update()
         {
-            //if (JInput.JumpDown)
-            //{
-            //    UIManager.instance.Score.SetTrigger("Collect");
-            //}
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
             {
+                Collect();
+            }
+        }
 
-                if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Collect"))
-                {
-                    UIManager.instance.Score.SetTrigger("Collect");
-                    _animator.SetTrigger("Collect");
-                     Destroy(gameObject, _animator.GetCurrentAnimatorStateInfo(0).length);
-                    UIManager.instance.Score.Value++;
-                }
-
+        public void Collect()
+        {
+            if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Collect"))
+            {
+                UIManager.instance.Score.SetTrigger("Collect");
+                _animator.SetTrigger("Collect");
+                Destroy(gameObject, _animator.GetCurrentAnimatorStateInfo(0).length);
+                UIManager.instance.Score.Value++;
             }
         }
     }

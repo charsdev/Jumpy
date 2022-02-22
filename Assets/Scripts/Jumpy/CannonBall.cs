@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Chars;
 
 namespace Jumpy
 {
@@ -107,11 +108,9 @@ namespace Jumpy
                 }
                
             }
-            else if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow))
+            else if (Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow)) //TODO: Change to Input
             {
-
                 Time.timeScale = 1;
-
                 _echoEffect.enabled = true;
                 _rigidBody.velocity = _velocity;
                 SetLightOff();
@@ -163,7 +162,7 @@ namespace Jumpy
             }
 
             if (!Input.GetKey(KeyCode.S))
-            {
+            { //Change 
                 _jumpyAnimator.Animator.enabled = true;
             }
             _echoEffect.enabled = false;

@@ -36,9 +36,14 @@ public class MenuObject : MonoBehaviour {
         }
     }
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
             _index++;
             
@@ -51,7 +56,7 @@ public class MenuObject : MonoBehaviour {
             SetPositionSelector(Buttons[_index]);
         }
 
-        else if(Input.GetKeyDown(KeyCode.UpArrow))
+        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
             _index--;
             

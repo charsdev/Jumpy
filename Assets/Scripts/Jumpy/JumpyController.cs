@@ -20,16 +20,20 @@ namespace Jumpy
         public float ClampVerticalSpeed = -40f;
         public float HorizontalAcceleration = 90f;
         public float HorizontalDecceleration = 60f;
-
         [SerializeField] private float _bunnyHop = 10f;
         [SerializeField] private float _nextBunnyHop;
         [SerializeField] private float _bunnyHopRate = 0.5f;
         private float coyoteTime;
         [SerializeField] private bool _enableBunnyHop = false;
 
-        protected override void FixedUpdate()
+        protected override void Awake()
         {
             base.Awake();
+        }
+
+        protected override void FixedUpdate()
+        {
+            base.FixedUpdate();
 
             SetJumpHeigth();
             SetVerticalSpeed();
@@ -62,22 +66,29 @@ namespace Jumpy
 
         protected override void Update()
         {
+            NewMethod();
+            HorizontalMovement();
+            Jump();
+            WallJump();
+            BunnyHop();
+        }
+
+        private void NewMethod()
+        {
             LandingThisFrame = false;
             var groundCheck = CharacterBody.OnGround;
             LandingThisFrame = groundCheck && !OnGround;
             OnGround = groundCheck;
             coyoteTime = OnGround ? 0 : coyoteTime + Time.deltaTime;
-            HorizontalMovement();
-            Jump();
-            WallJump();
+        }
 
-            if (JInput.HorizontalInput != 0)
+        private void BunnyHop()
+        {
+            if (JInput.HorizontalInput == 0) return;
+            if (OnGround && Time.time >= _nextBunnyHop && _enableBunnyHop)
             {
-                if (OnGround && Time.time >= _nextBunnyHop && _enableBunnyHop)
-                {
-                    _nextBunnyHop = Time.time + _bunnyHopRate;
-                    CharacterBody.Rigidbody2D.velocity += (Vector2)CharacterBody.Up * _bunnyHop;
-                }
+                _nextBunnyHop = Time.time + _bunnyHopRate;
+                CharacterBody.Rigidbody2D.velocity += (Vector2)CharacterBody.Up * _bunnyHop;
             }
         }
 
@@ -89,7 +100,6 @@ namespace Jumpy
                 CharacterBody.Rigidbody2D.AddForce(new Vector2(CharacterBody.wallSide * 15, 30), ForceMode2D.Impulse);
             }
         }
-
 
         private void HorizontalMovement()
         {

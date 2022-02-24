@@ -15,6 +15,7 @@ public class GameManager : Singleton<GameManager>
     {
         base.Awake();
         player = GameObject.FindGameObjectWithTag("Player");
+        Cursor.lockState = CursorLockMode.None;
     }
 
     protected void Start()

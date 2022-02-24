@@ -4,5 +4,9 @@ using UnityEngine.Events;
 public class Health : MonoBehaviour
 {
     public UnityEvent OnDie;
-    public void Die() => OnDie.Invoke();
+
+    public void Die()
+    { 
+        OnDie.Invoke(); 
+    }
 }

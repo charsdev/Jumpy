@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7542a3b08b8de294ca299c44dc1b56bb, type: 3}
-  m_Name: CharacterData
+  m_Name: Bee
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 6e8d8cc81a678004cbe441a13cbf2d5f, type: 3}
-  Name: Dummy
+  sprite: {fileID: 21300000, guid: b41208b6fa02c4444b1dfaf45444dce9, type: 3}
+  Name: Bee
   Speed: 5
   Tag: Enemy
   layer:

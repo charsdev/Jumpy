@@ -39,8 +39,14 @@ namespace Chars
 
         protected virtual void InitializeCharacter()
         {
-            //if (CharacterRenderer != null)
-            //    CharacterRenderer.sprite = CharacterData.sprite;
+            if (CharacterData == null) return;
+
+            if (CharacterRenderer != null)
+                CharacterRenderer.sprite = CharacterData.sprite;
+
+            name = CharacterData.name;
+            //tag. = CharacterData.Tag;
+            //gameObject.layer = CharacterData.layer;
         }
 
     }

@@ -6,25 +6,20 @@ namespace Jumpy
     {
         private Animator _animator;
         private bool collected;
-        //public delegate void Collect();
-        //public event Collect OnCollect;
+        public SpriteRenderer spriteRenderer;
+        public ItemData itemData;
 
         private void Start()
         {
-            _animator = GetComponent<Animator>();
+            spriteRenderer.sprite = itemData.Sprite;
+            name = itemData.Name;
+           _animator = GetComponent<Animator>();
         }
-
-        private void Update() { }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!other.CompareTag("Player") && !enabled) return;
-
             Collect();
-            //if (OnCollect != null)
-            //{
-            //    OnCollect();
-            //}
         }
 
         public void Collect()

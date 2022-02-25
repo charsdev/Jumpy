@@ -73,7 +73,7 @@ public class FadeEffect : MonoBehaviour
 
     private IEnumerator WaitFadeToChange( string level)
     {
-        //yield return Fade(_fadeImage, _duration, _initialColorImage, _fadeColor);
+        yield return Fade(_fadeImage, _duration, _initialColorImage, _fadeColor);
         ChangeScene(level);
         yield return null;
     }

@@ -9,11 +9,15 @@ public class GameManager : Singleton<GameManager>
     public bool GameIsPaused;
     public bool IsInputEnabled = true;
     public Image PausePanel;
-    public GameObject player;
+    [HideInInspector] public GameObject player;
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private Transform initialTransform;
 
     protected override void Awake()
     {
         base.Awake();
+        Instantiate(playerPrefab, initialTransform.position, Quaternion.identity, GameObject.Find("Characters").transform);
+
         player = GameObject.FindGameObjectWithTag("Player");
         Cursor.lockState = CursorLockMode.None;
     }
@@ -46,7 +50,7 @@ public class GameManager : Singleton<GameManager>
         {
             SetInput(true);
 
-            if (Input.GetKeyDown(KeyCode.P))
+            if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
             {
                 PauseGame();
             }

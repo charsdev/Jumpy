@@ -1,12 +1,16 @@
+using Jumpy;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
-    public UnityEvent OnDie;
+
+    public void Start()
+    {
+    }
 
     public void Die()
-    { 
-        OnDie.Invoke(); 
+    {
+        RespawnSystem.Instance.Respawn();
     }
 }

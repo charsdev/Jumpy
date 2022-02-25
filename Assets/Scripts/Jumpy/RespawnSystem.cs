@@ -1,8 +1,10 @@
+using Chars.Tools;
 using UnityEngine;
 
 namespace Jumpy
 {
-    public class RespawnSystem : MonoBehaviour
+    //CHANGE TO EVENTS
+    public class RespawnSystem : Singleton<RespawnSystem>
     {
         public static Transform Checkpoint;
         public static Transform Player;
@@ -16,7 +18,7 @@ namespace Jumpy
                 Checkpoint = GameObject.Find("Initial Position").transform;
         }
 
-        public static void Respawn()
+        public void Respawn()
         {
             Player.position = Checkpoint.position;
         }

@@ -5086,7 +5086,6 @@ GameObject:
   - component: {fileID: 1350769207068407785}
   - component: {fileID: 1350769206160553103}
   - component: {fileID: 1350769206160553104}
-  - component: {fileID: 1350769206160553105}
   - component: {fileID: 1350769206160553106}
   - component: {fileID: 1350769206160553107}
   - component: {fileID: 1350769206160553108}
@@ -5096,6 +5095,8 @@ GameObject:
   - component: {fileID: 1350769206160553111}
   - component: {fileID: 1350769206160553112}
   - component: {fileID: 1350769206160553113}
+  - component: {fileID: 1996506185}
+  - component: {fileID: 1996506196}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -5161,32 +5162,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &1350769206160553105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350769206160553114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64210caa4c553b640be3f36d46cea362, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnGround: 1
-  _jumpHeight: 30
-  CanWallJump: 0
-  CanWallSlide: 0
-  HighJumpScale: 8
-  LowJumpScale: 21
-  ClampHorizontalSpeed: 13
-  ClampVerticalSpeed: -40
-  HorizontalAcceleration: 90
-  HorizontalDecceleration: 60
-  _bunnyHop: 10
-  _nextBunnyHop: 0
-  _bunnyHopRate: 0.25
-  _enableBunnyHop: 1
 --- !u!114 &1350769206160553106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5354,14 +5329,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5e4163ec97bbf428d5df76d73025cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoxCollider2D: {fileID: 0}
   Sharpness: 16
   RotationSpeed: 5
   useRigidBodyGravityScale: 1
   CurrentSide: 0
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 192
   OnAbove: 0
   OnGround: 0
   OnWall: 0
@@ -5390,9 +5364,9 @@ MonoBehaviour:
   OnDie:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 11500000, guid: 88e6705fa3c311d49b11b5e993a79014, type: 3}
         m_TargetAssemblyTypeName: RespawnSystem, Assembly-CSharp
-        m_MethodName: Respawn
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5431,7 +5405,7 @@ MonoBehaviour:
   _direction: {x: 0, y: 0}
   _spaceButtonCounter: 0
   _model: {fileID: 1350769206335720035}
-  JumpyController: {fileID: 1350769206160553105}
+  JumpyController: {fileID: 1996506185}
   _spriteRenderer: {fileID: 1350769206335720034}
   _jumpyAnimator: {fileID: 1350769206160553106}
 --- !u!114 &1350769206160553112
@@ -5458,6 +5432,50 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350769206160553114}
   m_Enabled: 1
+--- !u!114 &1996506185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350769206160553114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e17e83b285e5824b8be5502c25e739d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CharacterData: {fileID: 0}
+  CharacterBody: {fileID: 1350769205905202965}
+  CharacterRenderer: {fileID: 1350769206335720034}
+  CharacterModel: {fileID: 1350769206335720035}
+  FacingRight: 0
+  OnGround: 0
+  _jumpHeight: 30
+  CanWallJump: 0
+  CanWallSlide: 0
+  HighJumpScale: 8
+  LowJumpScale: 21
+  ClampHorizontalSpeed: 13
+  ClampVerticalSpeed: -40
+  HorizontalAcceleration: 90
+  HorizontalDecceleration: 60
+  _bunnyHop: 10
+  _nextBunnyHop: 0
+  _bunnyHopRate: 0.25
+  _enableBunnyHop: 1
+--- !u!114 &1996506196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350769206160553114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65134a8156d39504abbcf0117747e2c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _leaders: []
 --- !u!1 &1350769206200679691
 GameObject:
   m_ObjectHideFlags: 0
@@ -20201,7 +20219,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 4bc96a8d71fc29540aaf894a08763481, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

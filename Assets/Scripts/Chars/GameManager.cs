@@ -48,7 +48,6 @@ public class GameManager : Singleton<GameManager>
 
             if (Input.GetKeyDown(KeyCode.P))
             {
-                GameIsPaused = !GameIsPaused;
                 PauseGame();
             }
         }
@@ -64,14 +63,16 @@ public class GameManager : Singleton<GameManager>
         IsInputEnabled = value;
     }
 
-    private void PauseGame()
+    public void PauseGame()
     {
+        GameIsPaused = !GameIsPaused;
         Time.timeScale = GameIsPaused ? 0 : 1;
-        PausePanel.gameObject.SetActive(!PausePanel.gameObject.activeInHierarchy);
+        PausePanel.gameObject.SetActive(!PausePanel.gameObject.activeSelf);
     }
 
     public void GameOver()
     {
+        Time.timeScale = 1;
         FadeEffect.Instance.FadeInToScene("Menu");
     }
 }

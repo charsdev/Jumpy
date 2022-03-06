@@ -116,7 +116,9 @@ namespace Jumpy
 
         private void Reset()
         {
-            _echoEffect.enabled = true;
+            if (_echoEffect != null)
+                _echoEffect.enabled = true;
+
             _currentPoint = 0;
 
             _timeToNextPoint = 0.5f;
@@ -132,7 +134,7 @@ namespace Jumpy
 
         private void Squash(float value)
         {
-            if (_squash != null)
+            if (_squash != null && _squash.enabled)
                 _squash.SquashScale(value);
         }
 
@@ -168,7 +170,8 @@ namespace Jumpy
         {
             if (!enabled) return;
 
-            _echoEffect.enabled = false;
+            if (_echoEffect != null)
+                _echoEffect.enabled = false;
 
             if (!JInput.PowerJumpUpHeld)
             {

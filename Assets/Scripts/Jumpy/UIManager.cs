@@ -1,20 +1,20 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Chars.Tools;
+using System;
 
-[System.Serializable]
+[Serializable]
 public class GraphText
 {
     [SerializeField] private Image _image;
     [SerializeField] private TextMeshProUGUI _textGUI;
-    public int Value;
     public Animator[] _animators = new Animator[2];
 
-    public GraphText(Image image, TextMeshProUGUI text, int value)
+    public GraphText(Image image, TextMeshProUGUI text)
     {
         _image = image;
         _textGUI = text;
-        Value = value;
     }
 
     public void SetText(string value) => _textGUI.text = value;
@@ -27,10 +27,15 @@ public class GraphText
     }
 }
 
-public class UIManager : MonoBehaviour
+public class UIManager : Singleton<UIManager>
 {
-    public static UIManager instance;
     public GraphText Score;
-    public void Awake() => instance = this;
-    private void Update() => Score.SetText(Score.Value.ToString() + '/' + 8);
+    public string ScorePattern;
+ 
+    public void RefreshPoints()
+    {
+        Score.SetText(GameManager.Instance.Score.ToString(ScorePattern + GameManager.instance.ScoreThreashold));
+        Score.SetTrigger("Collect");
+    }
+
 }

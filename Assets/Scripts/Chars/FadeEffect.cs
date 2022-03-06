@@ -1,41 +1,62 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+
+public class FadeEventParams : EventArgs
+{
+    public float Duration { get; set; }
+
+    public FadeEventParams(float duration)
+    {
+        Duration = duration;
+    }
+}
+
 public class FadeEffect : MonoBehaviour
 {
     private Image _fadeImage;
     private Color _initialColorImage;
     [SerializeField] private Color _fadeColor;
-    [SerializeField] private float _duration;
-    //This need to be refactor
-    [SerializeField] private bool _fadeOutOnStart;
-    [SerializeField] private bool _fadeInOnStart;
-    public static FadeEffect Instance;
-    public static bool FadeFinish;
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     private void Start()
     {
         _fadeImage = GetComponent<Image>();
         _initialColorImage = _fadeImage.color;
-        if (_fadeInOnStart)
-        {
-            FadeIn(_duration);
-        }
-        else if (_fadeOutOnStart)
-        {
-            FadeOut(_duration);
-        }
+    }
+
+    private void OnEnable()
+    {
+        EventManager.StartListening("FadeOut",FadeOutHandler);
+        EventManager.StartListening("FadeIn", FadeInHandler);
+    }
+
+  
+    private void OnDisable()
+    {
+        EventManager.StopListening("FadeOut", FadeOutHandler);
+        EventManager.StopListening("FadeIn", FadeInHandler);
     }
 
 
-    public static IEnumerator Fade(Image fadeImage, float totalDuration, Color a, Color b)
+    public void FadeOutHandler(object sender, EventArgs eventParams)
     {
-        FadeFinish = false;
+        Debug.Log($"Event: 'FadeOut'; Sender: {sender}; Receiver: {this}");
+
+        FadeEventParams fadeEventParams = (FadeEventParams)eventParams;
+        FadeOut(fadeEventParams.Duration);
+    }
+
+    public void FadeInHandler(object sender, EventArgs eventParams)
+    {
+        Debug.Log($"Event: 'FadeIn'; Sender: {sender}; Receiver: {this}");
+
+        FadeEventParams fadeEventParams = (FadeEventParams)eventParams;
+        FadeIn(fadeEventParams.Duration);
+    }
+
+    public IEnumerator Fade(Image fadeImage, float totalDuration, Color a, Color b)
+    {
         float elapsedTime = 0f;
         while (elapsedTime < totalDuration)
         {
@@ -43,38 +64,17 @@ public class FadeEffect : MonoBehaviour
             fadeImage.color = Color.Lerp(a, b, elapsedTime / totalDuration);
             yield return null;
         }
-
-        if (elapsedTime >= totalDuration)
-        {
-            FadeFinish = true;
-        }
+     
     }
 
     public void FadeOut(float totalDuration)
     {
-        StartCoroutine(Fade(_fadeImage, _duration, _fadeColor, _initialColorImage));
+        StartCoroutine(Fade(_fadeImage, totalDuration, _fadeColor, _initialColorImage));
     }
 
     public void FadeIn(float totalDuration)
     {
-        StartCoroutine(Fade(_fadeImage, _duration, _initialColorImage, _fadeColor));
+        StartCoroutine(Fade(_fadeImage, totalDuration, _initialColorImage, _fadeColor));
     }
 
-    public void ChangeScene(string level)
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(level);
-    }
-
-    public void FadeInToScene(string level)
-    {
-        StartCoroutine(WaitFadeToChange(level));
-    }
-
-
-    private IEnumerator WaitFadeToChange( string level)
-    {
-        yield return Fade(_fadeImage, _duration, _initialColorImage, _fadeColor);
-        ChangeScene(level);
-        yield return null;
-    }
 }

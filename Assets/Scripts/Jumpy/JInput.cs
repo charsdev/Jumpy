@@ -8,6 +8,9 @@ namespace Jumpy
         public static bool JumpDown;
         public static bool JumpUp;
         public static bool JumpHeld;
+        public static bool PowerJumpDown;
+        public static bool PowerJumpUp;
+        public static bool PowerJumpUpHeld;
 
         public void Update()
         {
@@ -17,6 +20,9 @@ namespace Jumpy
                 JumpDown = Input.GetButtonDown("Jump");
                 JumpHeld = Input.GetButton("Jump");
                 JumpUp = Input.GetButtonUp("Jump");
+                PowerJumpDown = Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow);
+                PowerJumpUp = Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow);
+                PowerJumpUpHeld = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
             }
         }
     }

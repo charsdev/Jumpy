@@ -9,7 +9,9 @@ public class MenuObject : MonoBehaviour {
     public GameObject[] Buttons;
     public RectTransform Selector;
     private int _index;
-    
+
+    public bool BlockSelect;
+
     public void SetFirstSelected()
     {
         EventSystemChecker.menuEventSystem.SetSelectedGameObject(FirstSelectedObject);
@@ -41,8 +43,15 @@ public class MenuObject : MonoBehaviour {
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    public void SetBlockSelect(bool value)
+    {
+        BlockSelect = value;
+    }
+
     public void Update()
     {
+        if (BlockSelect) return;
+
         if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
             _index++;

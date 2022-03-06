@@ -19,10 +19,15 @@ namespace Jumpy
         private bool _playerGrounded;
         private Vector2 _movement;
 
-        private void Awake() => _player = GetComponent<JumpyController>();
+        private void Awake() 
+        {
+            _player = GetComponent<JumpyController>();
+        }
+
         private void Update()
         {
             if (GameManager.Instance.GameIsPaused) return;
+
             if (_player == null) return;
 
             // Flip the sprite
@@ -70,7 +75,6 @@ namespace Jumpy
             }
 
             _movement = GetComponent<CharacterBody>().Rigidbody2D.velocity;
-            //_movement = _player.deltaMovement; // Previous frame movement is more valuable
         }
 
         private void OnDisable()

@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/PowerJumpTest.unity
+    guid: 2b806a5eb550869429149f58836ead22
+  - enabled: 0
     path: Assets/Scenes/menu.unity
     guid: e19deb9c2747744409208181c8e24b29
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Testmap.unity
     guid: 91df97e70a6e17247ab3cf93666536de
   m_configObjects: {}

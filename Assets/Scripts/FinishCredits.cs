@@ -1,34 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class FinishCredits : MonoBehaviour
 {
     public Animator PanelAnimator;
     public GameObject CreditsPanel;
+    public UnityEvent<object> OnFinishCredits;
 
-    private void OnEnable()
+    private void Start()
     {
-        FadeEffect.Instance.FadeIn(1f);
+        OnFinishCredits.AddListener((object sender) => {
+            Debug.Log($"Event: 'OnFinishCredits'; Sender: {sender}; Receiver: {this}");
+        });
     }
-
-    private void OnDisable()
-    {
-        FadeEffect.Instance.FadeOut(1f);
-    }
-
     // Update is called once per frame
     private void Update()
     {
         if (PanelAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
         {
-            FadeEffect.Instance.FadeOut(1f);
-            CreditsPanel.SetActive(false);
+            OnFinishCredits.Invoke(this);
         }
 
-        if (Input.anyKeyDown && CreditsPanel.activeInHierarchy)
+        if (Input.anyKeyDown)
         {
-            CreditsPanel.SetActive(false);
+            OnFinishCredits.Invoke(this);
         }
 
     }

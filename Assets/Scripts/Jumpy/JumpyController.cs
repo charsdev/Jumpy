@@ -25,6 +25,7 @@ namespace Jumpy
         [SerializeField] private float _bunnyHopRate = 0.5f;
         private float coyoteTime;
         [SerializeField] private bool _enableBunnyHop = false;
+        public bool limitVerticalSpeed;
 
         protected override void Awake()
         {
@@ -46,10 +47,11 @@ namespace Jumpy
                 CharacterBody.Rigidbody2D.velocity = new Vector2(CharacterBody.Rigidbody2D.velocity.x, ClampVerticalSpeed);
             }
 
-            if (CharacterBody.Rigidbody2D.velocity.y > VerticalMaxHeight)
-            {
-                CharacterBody.Rigidbody2D.velocity = new Vector2(CharacterBody.Rigidbody2D.velocity.x, VerticalMaxHeight);
-            }
+            if (limitVerticalSpeed)
+                if (CharacterBody.Rigidbody2D.velocity.y > VerticalMaxHeight)
+                {
+                    CharacterBody.Rigidbody2D.velocity = new Vector2(CharacterBody.Rigidbody2D.velocity.x, VerticalMaxHeight);
+                }
         }
 
         private void SetJumpHeigth()
@@ -66,14 +68,25 @@ namespace Jumpy
 
         protected override void Update()
         {
-            NewMethod();
+            if (OnGround && limitVerticalSpeed)
+            {
+                limitVerticalSpeed = false;
+            }
+
+            Landing();
             HorizontalMovement();
             Jump();
             WallJump();
             BunnyHop();
+
+            if(JInput.JumpDown)
+            {
+                limitVerticalSpeed = true;
+            }
+
         }
 
-        private void NewMethod()
+        private void Landing()
         {
             LandingThisFrame = false;
             var groundCheck = CharacterBody.OnGround;
@@ -134,13 +147,7 @@ namespace Jumpy
             }
         }
 
-        public void SquashScale(float value)
-        {
-            if (value == 0f)
-                return;
-
-            transform.localScale = new Vector3(1 / value, value, 1 / value);
-        }
+      
     }
 }
 

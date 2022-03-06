@@ -15,7 +15,13 @@ namespace Chars
         protected override void Awake()
         {
             base.Awake();
+        }
+
+        protected override void Start()
+        {
+            base.Start();
             if (NeedTarget) Target = GameManager.Instance?.player.transform;
+
         }
 
         protected override void Update()

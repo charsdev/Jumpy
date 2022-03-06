@@ -150,7 +150,6 @@ namespace Chars.Tools
 
             if (pool == null)
             {
-                Debug.Log("No se encontro pool creando...", this);
                 var newPool = new Pool(tag, objectToRecycle, 1);
                 _poolsList.Add(newPool);
                 _TagDictionaryToPool.Add(tag, newPool);

@@ -4,7 +4,7 @@ namespace Chars
 {
     public class EchoEffect : MonoBehaviour
     {
-        private float timeBeetweenSpawns;
+        private float _timeBeetweenSpawns;
         public float startTimeBeetweenSpawns;
         public float timeBeetweenDestroy = 8f;
         public GameObject prefab;
@@ -12,19 +12,17 @@ namespace Chars
 
         private void Update()
         {
-            if (timeBeetweenSpawns <= 0)
+            if (_timeBeetweenSpawns <= 0)
             {
                 GameObject instance = Instantiate(prefab, transform.position, Quaternion.identity);
                 Destroy(instance, timeBeetweenDestroy);
-                timeBeetweenSpawns = startTimeBeetweenSpawns;
+                _timeBeetweenSpawns = startTimeBeetweenSpawns;
             }
             else
             {
-                timeBeetweenSpawns -= Time.deltaTime;
+                _timeBeetweenSpawns -= Time.deltaTime;
             }
 
-            //TODO: Disengage
-            enabled = CharacterBody.OnGround && enabled;
         }
     }
 }

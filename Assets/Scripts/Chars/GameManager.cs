@@ -1,4 +1,6 @@
 using Chars.Tools;
+using Jumpy;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,15 +12,15 @@ public class GameManager : Singleton<GameManager>
     public bool IsInputEnabled = true;
     public Image PausePanel;
     [HideInInspector] public GameObject player;
-    [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private Transform initialTransform;
+    [SerializeField] public GameObject PlayerPrefab;
+
+    public int Score;
+    public int ScoreThreashold = 8;
 
     protected override void Awake()
     {
         base.Awake();
-        Instantiate(playerPrefab, initialTransform.position, Quaternion.identity, GameObject.Find("Characters").transform);
 
-        player = GameObject.FindGameObjectWithTag("Player");
         Cursor.lockState = CursorLockMode.None;
     }
 
@@ -34,18 +36,9 @@ public class GameManager : Singleton<GameManager>
     {
         if(CurrentStatus == Status.BeforeGameStart)
         {
-            //DANGER DEPENDECY
-            if (!FadeEffect.FadeFinish)
-            {
-                IsInputEnabled = false;
-            }
-            else
-            {
-                IsInputEnabled = true;
-                SetGameState(Status.GameInProgress);
-            }
+            SetGameState(Status.GameInProgress);
         }
-   
+
         if (CurrentStatus == Status.GameInProgress)
         {
             SetInput(true);
@@ -56,10 +49,10 @@ public class GameManager : Singleton<GameManager>
             }
         }
 
-        if (CurrentStatus == Status.GameOver)
-        {
-            GameOver();
-        }
+        //if (CurrentStatus == Status.GameOver)
+        //{
+        //    GameOver();
+        //}
     }
 
     private void SetInput(bool value)
@@ -77,6 +70,24 @@ public class GameManager : Singleton<GameManager>
     public void GameOver()
     {
         Time.timeScale = 1;
-        FadeEffect.Instance.FadeInToScene("Menu");
     }
+
+    public void OnEnable()
+    {
+        EventManager.StartListening("AddScore", AddScoreHandler);
+    }
+
+    public void OnDisable()
+    {
+        EventManager.StopListening("AddScore", AddScoreHandler);
+    }
+
+    public void AddScoreHandler(object sender, EventArgs eventparams)
+    {
+        Debug.Log($"Event: 'AddScore'; Sender: {sender}; Receiver: {this}");
+        Score += ((AddScoreParams)eventparams).Value;
+        UIManager.Instance.RefreshPoints();
+    }
+
+
 }

@@ -1,7 +1,17 @@
+using System;
 using UnityEngine;
 
 namespace Jumpy
 {
+    public class AddScoreParams : EventArgs 
+    {
+        public int Value { get; set; }
+        public AddScoreParams(int value)
+        {
+            Value = value;
+        }
+    }
+
     public class Item : MonoBehaviour
     {
         private Animator _animator;
@@ -27,10 +37,9 @@ namespace Jumpy
             if (!collected)
             {
                 collected = true;
-                UIManager.instance.Score.SetTrigger("Collect");
                 _animator.SetTrigger("Collect");
                 Destroy(gameObject, _animator.GetCurrentAnimatorStateInfo(0).length);
-                UIManager.instance.Score.Value++;
+                EventManager.TriggerEvent("AddScore", new AddScoreParams(1), this);
             }
         }
     }

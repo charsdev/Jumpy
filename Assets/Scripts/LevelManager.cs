@@ -25,7 +25,6 @@ public class LevelManager : Singleton<LevelManager>
     protected virtual void Start()
     {
         EventManager.TriggerEvent("FadeOut", new FadeEventParams(OutroFadeDuration), this);
-
     }
 
     public void SpawnPlayer()
@@ -40,7 +39,7 @@ public class LevelManager : Singleton<LevelManager>
 
     private void InstantiatePlayer()
     {
-        if (GameManager.Instance.PlayerPrefab != null)
+        if (GameManager.Instance.PlayerPrefab != null && GameManager.instance.CreatePlayer)
         {
             GameObject newPlayer = Instantiate(GameManager.Instance.PlayerPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             GameManager.instance.player = newPlayer;

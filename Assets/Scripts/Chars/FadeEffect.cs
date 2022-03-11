@@ -18,11 +18,20 @@ public class FadeEffect : MonoBehaviour
     private Image _fadeImage;
     private Color _initialColorImage;
     [SerializeField] private Color _fadeColor;
+    [SerializeField] private bool fadeOnStart;
 
     private void Start()
     {
         _fadeImage = GetComponent<Image>();
         _initialColorImage = _fadeImage.color;
+        Color color = Color.white;
+        color.a = 0;
+        _initialColorImage = color;
+
+        if (fadeOnStart)
+        {
+            FadeOut(1);
+        }
     }
 
     private void OnEnable()

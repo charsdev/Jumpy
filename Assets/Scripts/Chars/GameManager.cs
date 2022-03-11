@@ -13,15 +13,20 @@ public class GameManager : Singleton<GameManager>
     public Image PausePanel;
     [HideInInspector] public GameObject player;
     [SerializeField] public GameObject PlayerPrefab;
-
+    public bool CreatePlayer;
     public int Score;
     public int ScoreThreashold = 8;
+    public bool canPause;
 
     protected override void Awake()
     {
         base.Awake();
-
+        if (!CreatePlayer)
+        {
+            player = GameObject.FindWithTag("Player");
+        }
         Cursor.lockState = CursorLockMode.None;
+
     }
 
     protected void Start()
@@ -43,7 +48,7 @@ public class GameManager : Singleton<GameManager>
         {
             SetInput(true);
 
-            if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+            if ((Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape)) && canPause)
             {
                 PauseGame();
             }
@@ -64,7 +69,9 @@ public class GameManager : Singleton<GameManager>
     {
         GameIsPaused = !GameIsPaused;
         Time.timeScale = GameIsPaused ? 0 : 1;
-        PausePanel.gameObject.SetActive(!PausePanel.gameObject.activeSelf);
+
+        //TODO CHANGE
+        PausePanel?.gameObject.SetActive(!PausePanel.gameObject.activeSelf);
     }
 
     public void GameOver()

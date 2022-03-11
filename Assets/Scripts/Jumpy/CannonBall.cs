@@ -3,8 +3,13 @@ using Chars;
 
 namespace Jumpy
 {
+  
+
     public class CannonBall : MonoBehaviour
     {
+        public bool showCursor = false;
+        public float SmoothDamping = 80f;
+
         public float[] PowerAmount;
         public float IncreaseSpeed = 2.5f;
         public float TimeToInit = 0.25f;
@@ -19,6 +24,9 @@ namespace Jumpy
         private EchoEffect _echoEffect;
         [SerializeField] private int _currentPoint;
         private Rigidbody2D _rigidBody;
+        private bool _hasEchoEffect;
+        private bool _hasSquash;
+        private bool _hasAnimator;
         private Color _color;
         private Vector3 _velocity = Vector3.zero;
         [SerializeField] private float _spaceButtonCounter;
@@ -29,23 +37,32 @@ namespace Jumpy
         private Squash _squash;
         private float _timeToNextPoint = 0.5f;
         public float CurrentPower;
+        public bool wasShooted;
+        private JumpyController _jumpyController;
+        private float CurrentVelocity;
+        public bool MouseControl = true;
 
         private void Start()
         {
             _rigidBody = GetComponent<Rigidbody2D>();
-            _echoEffect = GetComponent<EchoEffect>();
-            _squash = GetComponent<Squash>();
-            _animator = GetComponent<Animator>();
+            _jumpyController = GetComponent<JumpyController>();
+            _hasEchoEffect = TryGetComponent(out _echoEffect);
+            _hasSquash = TryGetComponent(out _squash);
+            _hasAnimator = TryGetComponent(out _animator);
             _currentPoint = 0;
             _color = Color.white;
             _firepoint.transform.SetParent(null);
+            _angle = MaxAngle;
         }
 
         private void Update()
         {
+            _jumpyController.BlockMoveOnAir = wasShooted;
+            if (wasShooted) {
+                return;
+            }
 
             Charge();
-
             SetDirection();
             SetAngle();
             LockFirepoint();
@@ -54,9 +71,10 @@ namespace Jumpy
 
         private void Shoot()
         {
-            if (JInput.PowerJumpUp)
+            if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.JoystickButton4))
             {
                 _rigidBody.velocity = _velocity;
+                wasShooted = true;
                 Reset();
             }
         }
@@ -67,18 +85,54 @@ namespace Jumpy
 
             var x = Mathf.Cos(_angle * Mathf.Deg2Rad) * _offset;
             var y = Mathf.Sin(_angle * Mathf.Deg2Rad) * _offset;
+
             _firepoint.transform.position = new Vector2(transform.position.x + x, transform.position.y + y);
             _firepoint.transform.rotation = Quaternion.Euler(0, 0, _angle);
         }
+
+        public static float Clamp0360(float eulerAngles)
+        {
+            float result = eulerAngles - Mathf.CeilToInt(eulerAngles / 360f) * 360f;
+            if (result < 0)
+            {
+                result += 360f;
+            }
+            return result;
+        }
+
+        public Vector3 startMousePosition;
 
         private void SetAngle()
         {
             if (Camera != null && _firepoint.gameObject.activeInHierarchy)
             {
-                Vector3 diff = (Camera.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
-                _angle = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
+                Vector3 mousePositionRespectPlayer = (Camera.ScreenToWorldPoint(Input.mousePosition) - transform.position);
+                float mouseAngle = Mathf.Atan2(mousePositionRespectPlayer.y, mousePositionRespectPlayer.x) * Mathf.Rad2Deg;
 
-                if (_animator != null && !_animator.enabled && _spriteRenderer != null)
+
+                if (MouseControl)
+                {
+                    _angle = mouseAngle;
+                }
+                else
+                {
+                    if (Input.GetKey(KeyCode.LeftArrow))
+                    {
+                        _angle += 200f * Time.deltaTime;
+                    }
+                    if (Input.GetKey(KeyCode.RightArrow))
+                    {
+                        _angle -= 200f * Time.deltaTime;
+                    }
+
+                    _angle -= Input.GetAxis("RightJoystick") * 200f * Time.deltaTime;
+                }
+
+                if (Mathf.Abs(Input.GetAxis("RightJoystick")) > 0)
+                {
+                }
+
+                if (_hasAnimator && !_animator.enabled && _spriteRenderer != null)
                     _spriteRenderer.flipX = _angle > MaxAngle;
             }
         }
@@ -86,13 +140,19 @@ namespace Jumpy
         private void Charge()
         {
             _velocity = new Vector2(CurrentPower * _direction.x, CurrentPower * _direction.y);
-           
-            if (JInput.PowerJumpDown && _animator.enabled)
-            {
-                _animator.enabled = false;
-            }
 
-            if (JInput.PowerJumpUpHeld) 
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton4)) {
+
+                _firepoint.transform.rotation = Quaternion.Euler(0, 0, _angle);
+                _jumpyController.CanMove = false;
+
+                if (_hasAnimator && _animator.enabled)
+                {
+                    _animator.enabled = false;
+                }
+            }  
+
+            if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.JoystickButton4)) 
             {
                 _targetScale -= _reduceScale * Time.deltaTime;
                 _targetScale = Mathf.Max(_targetScale, _reduceScale);
@@ -103,12 +163,12 @@ namespace Jumpy
                 if (_spaceButtonCounter > TimeToInit)
                 {
                     SetLightOn();
+                    CurrentPower = PowerAmount[_currentPoint];
 
                     if (_spaceButtonCounter > _timeToNextPoint)
                     {
-                        _currentPoint = _currentPoint < _points.Length - 1 ? _currentPoint + 1 : _points.Length - 1;
+                        _currentPoint = _currentPoint < _points.Length - 1 ? _currentPoint + 1 : 0;
                         _timeToNextPoint += 0.5f;
-                        CurrentPower = PowerAmount[_currentPoint];
                     }
                 }
             }
@@ -130,11 +190,14 @@ namespace Jumpy
             _rigidBody.gravityScale = 8;
             SetLightOff();
             Squash(_targetScale);
+            _angle = MaxAngle;
+            _jumpyController.CanMove = true;
+            _firepoint.transform.rotation = Quaternion.Euler(0, 0, _angle);
         }
 
         private void Squash(float value)
         {
-            if (_squash != null && _squash.enabled)
+            if (_hasSquash && _squash.enabled)
                 _squash.SquashScale(value);
         }
 
@@ -142,17 +205,25 @@ namespace Jumpy
         {
             if (Camera != null && _firepoint.gameObject.activeInHierarchy)
             {
-                Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                _direction = ((Vector3)mousePos - transform.position).normalized;
+                _direction = new Vector2(Mathf.Cos(_angle * Mathf.Deg2Rad), Mathf.Sin(_angle * Mathf.Deg2Rad)).normalized;
             }
         }
 
         private void SetLightOn()
         {
             _firepoint.gameObject.SetActive(true);
+            
+            Color temp = _color;
+            temp.a = 0.5f;
+
+            for (int i = 0; i < _points.Length; i++)
+            {
+                _points[i].color = temp;
+            }
+
             _points[_currentPoint].color = _color;
         }
-      
+
         private void SetLightOff()
         {
             Color temp = _color;
@@ -170,13 +241,17 @@ namespace Jumpy
         {
             if (!enabled) return;
 
-            if (_echoEffect != null)
+            wasShooted = false;
+
+            if (_hasEchoEffect)
                 _echoEffect.enabled = false;
 
-            if (!JInput.PowerJumpUpHeld)
+            if (!JInput.PowerJumpUpHeld && _hasAnimator)
             {
                 _animator.enabled = true;
             }
         }
     }
+
+
 }

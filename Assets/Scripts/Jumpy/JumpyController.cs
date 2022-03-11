@@ -12,6 +12,7 @@ namespace Jumpy
         public bool LandingThisFrame { get; internal set; }
         public bool JumpingThisFrame { get; internal set; }
         public float DeltaX { get => _deltaX; }
+        public bool CanMove;
         public bool CanWallJump;
         public bool CanWallSlide;
         public float HighJumpScale = 8f;
@@ -24,12 +25,14 @@ namespace Jumpy
         [SerializeField] private float _nextBunnyHop;
         [SerializeField] private float _bunnyHopRate = 0.5f;
         private float coyoteTime;
-        [SerializeField] private bool _enableBunnyHop = false;
+        public bool EnableBunnyHop = false;
         public bool limitVerticalSpeed;
+        public bool BlockMoveOnAir;
 
         protected override void Awake()
         {
             base.Awake();
+            CanMove = true;
         }
 
         protected override void FixedUpdate()
@@ -83,7 +86,6 @@ namespace Jumpy
             {
                 limitVerticalSpeed = true;
             }
-
         }
 
         private void Landing()
@@ -97,8 +99,8 @@ namespace Jumpy
 
         private void BunnyHop()
         {
-            if (JInput.HorizontalInput == 0) return;
-            if (OnGround && Time.time >= _nextBunnyHop && _enableBunnyHop)
+            if (JInput.HorizontalInput == 0 || !CanMove) return;
+            if (OnGround && Time.time >= _nextBunnyHop && EnableBunnyHop)
             {
                 _nextBunnyHop = Time.time + _bunnyHopRate;
                 CharacterBody.Rigidbody2D.velocity += (Vector2)CharacterBody.Up * _bunnyHop;
@@ -116,6 +118,9 @@ namespace Jumpy
 
         private void HorizontalMovement()
         {
+            if (BlockMoveOnAir) return;
+            if (!CanMove) return;
+
             if (JInput.HorizontalInput != 0)
             {
                 _deltaX += JInput.HorizontalInput * HorizontalAcceleration * Time.deltaTime;
@@ -135,7 +140,7 @@ namespace Jumpy
 
         private void Jump()
         {
-            if (JInput.JumpDown && (OnGround || coyoteTime < 0.25f))
+            if (JInput.JumpDown && (OnGround || coyoteTime < 0.25f) && CanMove)
             {
                 CharacterBody.Rigidbody2D.velocity = Vector2.zero; //force velocity 0;
                 CharacterBody.Rigidbody2D.velocity += (Vector2)CharacterBody.Up * _jumpHeight;
@@ -146,8 +151,8 @@ namespace Jumpy
                 JumpingThisFrame = false;
             }
         }
+       
 
-      
     }
 }
 

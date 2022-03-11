@@ -1220,7 +1220,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -17, y: -16.999939}
+  m_AnchoredPosition: {x: -16.999878, y: -16.999939}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &703826794
@@ -2973,7 +2973,7 @@ RectTransform:
   m_GameObject: {fileID: 1987446913}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.0802, y: 1.0802, z: 1.0802}
   m_Children: []
   m_Father: {fileID: 703826794}
   m_RootOrder: 0
@@ -3290,6 +3290,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7812257409392485978, guid: 105053921482eeb4ab899e45690db471, type: 3}
+      propertyPath: fadeOnStart
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812257409392485978, guid: 105053921482eeb4ab899e45690db471, type: 3}
       propertyPath: _fadeColor.b
       value: 1
       objectReference: {fileID: 0}
@@ -3388,6 +3392,10 @@ PrefabInstance:
     - target: {fileID: 7812257409392485981, guid: 105053921482eeb4ab899e45690db471, type: 3}
       propertyPath: m_Sprite
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7812257409392485981, guid: 105053921482eeb4ab899e45690db471, type: 3}
+      propertyPath: m_Color.a
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7812257409392485981, guid: 105053921482eeb4ab899e45690db471, type: 3}
       propertyPath: m_Color.b

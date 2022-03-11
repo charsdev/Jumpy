@@ -11,18 +11,18 @@ namespace Jumpy
         public static bool PowerJumpDown;
         public static bool PowerJumpUp;
         public static bool PowerJumpUpHeld;
-
+        public static bool MouseMoving;
         public void Update()
         {
             if (GameManager.Instance.CurrentStatus == GameManager.Status.GameInProgress && !GameManager.Instance.GameIsPaused)
             {
                 HorizontalInput = Input.GetAxisRaw("Horizontal");
-                JumpDown = Input.GetButtonDown("Jump");
-                JumpHeld = Input.GetButton("Jump");
-                JumpUp = Input.GetButtonUp("Jump");
-                PowerJumpDown = Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow);
-                PowerJumpUp = Input.GetKeyUp(KeyCode.S) || Input.GetKeyUp(KeyCode.DownArrow);
-                PowerJumpUpHeld = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
+                JumpDown = Input.GetKeyDown(KeyCode.W) || Input.GetButtonDown("Fire 1 Joystick"); //|| Input.GetKeyDown(KeyCode.UpArrow);
+                JumpHeld = Input.GetKey(KeyCode.W) || Input.GetButton("Fire 1 Joystick");//|| Input.GetKey(KeyCode.UpArrow); 
+                JumpUp = Input.GetKeyUp(KeyCode.W) || Input.GetButtonUp("Fire 1 Joystick"); // || Input.GetKeyUp(KeyCode.UpArrow);
+                PowerJumpDown = Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton4);
+                PowerJumpUp = Input.GetKeyUp(KeyCode.Space) || Input.GetKey(KeyCode.JoystickButton4);
+                PowerJumpUpHeld = Input.GetKey(KeyCode.Space) || Input.GetKeyUp(KeyCode.JoystickButton4);
             }
         }
     }

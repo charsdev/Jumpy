@@ -7,4 +7,9 @@ public class LoadScene : MonoBehaviour
     {
         SceneManager.LoadScene(index);
     }
+
+    public void DoChangeSceneString(string level)
+    {
+        SceneManager.LoadScene(level);
+    }
 }

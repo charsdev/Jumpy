@@ -30,8 +30,14 @@ public class FadeEffect : MonoBehaviour
 
         if (fadeOnStart)
         {
-            FadeOut(1);
+            StartCoroutine(DelayFade(6.5f, 1));
         }
+    }
+
+    public IEnumerator DelayFade(float delay, float fadeTime)
+    {
+        yield return new WaitForSeconds(delay);
+        FadeOut(fadeTime);
     }
 
     private void OnEnable()

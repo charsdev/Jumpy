@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MenuObject : MonoBehaviour {
 
@@ -9,8 +10,9 @@ public class MenuObject : MonoBehaviour {
     public GameObject[] Buttons;
     public RectTransform Selector;
     private int _index;
-
     public bool BlockSelect;
+    public UnityEvent OnSelect; 
+
 
     public void SetFirstSelected()
     {
@@ -63,6 +65,7 @@ public class MenuObject : MonoBehaviour {
 
             SetSelected(Buttons[_index]);
             SetPositionSelector(Buttons[_index]);
+            OnSelect.Invoke();
         }
 
         else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
@@ -76,6 +79,7 @@ public class MenuObject : MonoBehaviour {
 
             SetSelected(Buttons[_index]);
             SetPositionSelector(Buttons[_index]);
+            OnSelect.Invoke();
         }
 
     }

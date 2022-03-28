@@ -26,6 +26,11 @@ public class Stomper : MonoBehaviour
             _characterBody.Rigidbody2D.velocity = Vector2.zero; //force velocity 0;
             _characterBody.Rigidbody2D.velocity += (Vector2)_characterBody.Up * 30f;
         }
+
+        if (other.CompareTag("Boss"))
+        {
+            other.GetComponent<BossHealth>().TakeDamage(100);
+        }
     }
 
 }

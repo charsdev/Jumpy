@@ -51,10 +51,12 @@ namespace Jumpy
             }
 
             if (limitVerticalSpeed)
+            {
                 if (CharacterBody.Rigidbody2D.velocity.y > VerticalMaxHeight)
                 {
                     CharacterBody.Rigidbody2D.velocity = new Vector2(CharacterBody.Rigidbody2D.velocity.x, VerticalMaxHeight);
                 }
+            }
         }
 
         private void SetJumpHeigth()
@@ -99,7 +101,10 @@ namespace Jumpy
 
         private void BunnyHop()
         {
-            if (JInput.HorizontalInput == 0 || !CanMove) return;
+            if (JInput.HorizontalInput == 0) return;
+            if (!CanMove) return;
+            if (!GameManager.Instance.IsInputEnabled) return;
+
             if (OnGround && Time.time >= _nextBunnyHop && EnableBunnyHop)
             {
                 _nextBunnyHop = Time.time + _bunnyHopRate;
@@ -120,6 +125,7 @@ namespace Jumpy
         {
             if (BlockMoveOnAir) return;
             if (!CanMove) return;
+            if (!GameManager.Instance.IsInputEnabled) { return; };
 
             if (JInput.HorizontalInput != 0)
             {

@@ -20,6 +20,7 @@ public class FollowersController : MonoBehaviour
 
     public void AddFollower(Follower follower)
     {
+        if (_leaders.Count <= 0) return;
         follower.Setup(_leaders.Last(), _steps);
         _leaders.Add(follower.Transform);
     }

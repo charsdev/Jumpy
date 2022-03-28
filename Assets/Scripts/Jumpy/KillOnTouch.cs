@@ -4,6 +4,8 @@ namespace Jumpy
 {
     public class KillOnTouch : MonoBehaviour
     {
+        public Vector2 DamageCausedKnockbackForce = new Vector2(0, 30f);
+
         private void Start()
         {
             
@@ -14,11 +16,15 @@ namespace Jumpy
             
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerEnter2D(Collider2D other)
         {
-            if (collision.CompareTag("Player") && collision.TryGetComponent(out Health health) && enabled)
+            if (other.CompareTag("Player") && other.TryGetComponent(out Health health) && enabled)
             {
                 health.Die();
+                var knockbackforce = DamageCausedKnockbackForce;
+                Vector2 relativePosition = other.transform.position - transform.position;
+                knockbackforce.x *= Mathf.Sign(relativePosition.x);
+                health.DoknockBack(knockbackforce);
             }
         }
     }

@@ -19,6 +19,8 @@ namespace Jumpy
         private bool _playerGrounded;
         private Vector2 _movement;
 
+
+
         private void Awake() 
         {
             _player = GetComponent<JumpyController>();
@@ -31,7 +33,7 @@ namespace Jumpy
             if (_player == null) return;
 
             // Flip the sprite
-            if (JInput.HorizontalInput != 0)
+            if (JInput.HorizontalInput != 0 && GameManager.Instance.IsInputEnabled)
             {
                 _spriteRenderer.flipX = JInput.HorizontalInput < 0;
             }
@@ -87,6 +89,15 @@ namespace Jumpy
             _moveParticles.Play();
         }
 
+        public void SetSpriteRenderer(bool value)
+        {
+            _spriteRenderer.enabled = value;
+        }
+
+        public void TriggerPlayerHit()
+        {
+            Animator.SetTrigger("Hit");
+        }
 
         #region Animation Keys
 

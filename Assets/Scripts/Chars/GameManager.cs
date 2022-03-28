@@ -26,7 +26,6 @@ public class GameManager : Singleton<GameManager>
             player = GameObject.FindWithTag("Player");
         }
         Cursor.lockState = CursorLockMode.None;
-
     }
 
     protected void Start()
@@ -46,7 +45,7 @@ public class GameManager : Singleton<GameManager>
 
         if (CurrentStatus == Status.GameInProgress)
         {
-            SetInput(true);
+            //SetInput(true);
 
             if ((Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape)) && canPause)
             {
@@ -60,7 +59,7 @@ public class GameManager : Singleton<GameManager>
         //}
     }
 
-    private void SetInput(bool value)
+    public void SetInput(bool value)
     {
         IsInputEnabled = value;
     }

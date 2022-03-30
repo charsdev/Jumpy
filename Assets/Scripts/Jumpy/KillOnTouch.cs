@@ -20,6 +20,7 @@ namespace Jumpy
         {
             if (other.CompareTag("Player") && other.TryGetComponent(out Health health) && enabled)
             {
+                Debug.Log("hey");
                 health.Die();
                 var knockbackforce = DamageCausedKnockbackForce;
                 Vector2 relativePosition = other.transform.position - transform.position;

@@ -34,7 +34,7 @@ public class UIManager : Singleton<UIManager>
  
     public void RefreshPoints()
     {
-        Score.SetText(GameManager.Instance.Score.ToString(ScorePattern + GameManager.instance.ScoreThreashold));
+        Score.SetText(GameManager.Instance.Score.ToString(ScorePattern));
         Score.SetTrigger("Collect");
     }
 

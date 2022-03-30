@@ -1,0 +1,8 @@
+version: 2
+tpsheetFileNames:
+- Assets/Sprites/MoleHands.tpsheet
+textureFileNames:
+- Assets/Sprites/MoleHands.png
+normalmapFileNames:
+- 
+enableDebugOutput: 0

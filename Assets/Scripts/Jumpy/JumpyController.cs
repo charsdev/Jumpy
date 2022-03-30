@@ -21,6 +21,8 @@ namespace Jumpy
         public float ClampVerticalSpeed = -40f;
         public float HorizontalAcceleration = 90f;
         public float HorizontalDecceleration = 60f;
+
+        [Header("Bunny Hop")]
         [SerializeField] private float _bunnyHop = 10f;
         [SerializeField] private float _nextBunnyHop;
         [SerializeField] private float _bunnyHopRate = 0.5f;
@@ -28,6 +30,12 @@ namespace Jumpy
         public bool EnableBunnyHop = false;
         public bool limitVerticalSpeed;
         public bool BlockMoveOnAir;
+        public bool EnableCoyoteTime; //Coyote Time will enable little frames for double jump
+
+        [Header("Double Jump ")]
+        public bool EnableDoubleJump;
+        [SerializeField] private int _jumpCounter;
+        public int MaxJumps;
 
         protected override void Awake()
         {
@@ -96,7 +104,8 @@ namespace Jumpy
             var groundCheck = CharacterBody.OnGround;
             LandingThisFrame = groundCheck && !OnGround;
             OnGround = groundCheck;
-            coyoteTime = OnGround ? 0 : coyoteTime + Time.deltaTime;
+            coyoteTime = OnGround && EnableCoyoteTime ? 0 : coyoteTime + Time.deltaTime;
+           // _jumpCounter = OnGround ? 0 : _jumpCounter;
         }
 
         private void BunnyHop()
@@ -146,10 +155,13 @@ namespace Jumpy
 
         private void Jump()
         {
-            if (JInput.JumpDown && (OnGround || coyoteTime < 0.25f) && CanMove)
+            if (JInput.JumpDown && (OnGround || coyoteTime < 0.25f || EnableDoubleJump && _jumpCounter < MaxJumps) && CanMove)
             {
                 CharacterBody.Rigidbody2D.velocity = Vector2.zero; //force velocity 0;
-                CharacterBody.Rigidbody2D.velocity += (Vector2)CharacterBody.Up * _jumpHeight;
+
+                var jumpPower = _jumpCounter > 0 ? _jumpHeight / 1.25f : _jumpHeight;
+                CharacterBody.Rigidbody2D.velocity += (Vector2)CharacterBody.Up * jumpPower;
+                _jumpCounter++;
                 JumpingThisFrame = true;
             }
             else

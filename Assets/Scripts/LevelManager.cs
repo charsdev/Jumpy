@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : Singleton<LevelManager>
 {
@@ -69,6 +70,13 @@ public class LevelManager : Singleton<LevelManager>
         StartCoroutine(GotoLevelCo(levelName));
     }
 
+    public virtual void RestartLevel()
+    {
+        EventManager.TriggerEvent("FadeIn", new FadeEventParams(OutroFadeDuration), this);
+        var activeScene = SceneManager.GetActiveScene();
+        StartCoroutine(GotoLevelCo(activeScene.name));
+    }
+
     protected virtual IEnumerator GotoLevelCo(string levelName)
     {
        
@@ -84,11 +92,11 @@ public class LevelManager : Singleton<LevelManager>
         if (string.IsNullOrEmpty(levelName))
         {
             Application.backgroundLoadingPriority = ThreadPriority.High;
-            UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("menu");
+            SceneManager.LoadScene("Menu");
         }
         else
         {
-            UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(levelName);
+            SceneManager.LoadScene(levelName);
         }
     }
 

@@ -15,7 +15,6 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] public GameObject PlayerPrefab;
     public bool CreatePlayer;
     public int Score;
-    public int ScoreThreashold = 8;
     public bool canPause;
 
     protected override void Awake()

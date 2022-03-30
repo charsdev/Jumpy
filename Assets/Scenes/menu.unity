@@ -903,7 +903,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  FirtsLevel: Testmap
+  FirtsLevel: Level 1
   TimeToStart: 2
 --- !u!114 &671791286
 MonoBehaviour:

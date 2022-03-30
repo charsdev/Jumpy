@@ -5,10 +5,11 @@ namespace Jumpy
 {
     public class JumpyAnimator : MonoBehaviour
     {
-        [SerializeField] public Animator Animator;
         [SerializeField] private SpriteRenderer _spriteRenderer;
+        [SerializeField] private Animator _anim;
         [SerializeField] private AudioSource _source;
-        [SerializeField] private ParticleSystem _jumpParticles;
+        [SerializeField] private LayerMask _groundMask;
+        [SerializeField] private ParticleSystem _jumpParticles, _launchParticles;
         [SerializeField] private ParticleSystem _moveParticles, _landParticles;
         [SerializeField] private AudioClip[] _footsteps;
 
@@ -16,20 +17,71 @@ namespace Jumpy
         [SerializeField] private float _maxParticleFallSpeed = -40;
 
         private JumpyController _player;
-        private bool _playerGrounded;
+        [SerializeField] private JumpyHealth _playerHealth;
+        private ParticleSystem.MinMaxGradient _currentGradient;
         private Vector2 _movement;
 
-
-
-        private void Awake() 
+        void Awake()
         {
-            _player = GetComponent<JumpyController>();
+            _player = GetComponentInParent<JumpyController>();
+
+            _player.OnGroundedChanged += OnLanded;
+            _player.OnJumping += OnJumping;
+            _playerHealth.OnHit.AddListener(OnHit);
         }
 
-        private void Update()
+        void OnDestroy()
         {
-            if (GameManager.Instance.GameIsPaused) return;
+            _player.OnGroundedChanged -= OnLanded;
+            _player.OnJumping -= OnJumping;
+            _playerHealth.OnHit.RemoveListener(OnHit);
+        }
 
+
+        #region Extended
+
+        #endregion
+
+        private void OnJumping()
+        {
+            _anim.SetTrigger(JumpKey);
+            _anim.ResetTrigger(GroundedKey);
+
+            // Only play particles when grounded (avoid coyote)
+            if (_player.Grounded)
+            {
+                _jumpParticles.Play();
+            }
+        }
+
+        private void OnLanded(bool grounded)
+        {
+            if (grounded)
+            {
+                _anim.SetTrigger(GroundedKey);
+
+                if (_footsteps.Length > 0)
+                {                    
+                    _source.PlayOneShot(_footsteps[Random.Range(0, _footsteps.Length)]);
+                }
+
+                _moveParticles.Play();
+                _landParticles.transform.localScale = Vector3.one * Mathf.InverseLerp(0, _maxParticleFallSpeed, _movement.y);
+                _landParticles.Play();
+            }
+            else
+            {
+                _moveParticles.Stop();
+            }
+        }
+
+        private void OnHit()
+        {
+            _anim.SetTrigger(Hit);
+        }
+
+        void Update()
+        {
             if (_player == null) return;
 
             // Flip the sprite
@@ -39,46 +91,23 @@ namespace Jumpy
             }
 
             // Speed up idle while running
-            Animator.SetFloat(IdleSpeedKey, Mathf.Lerp(1, _maxIdleSpeed, Mathf.Abs(JInput.HorizontalInput)));
+            _anim.SetFloat(IdleSpeedKey, Mathf.Lerp(1, _maxIdleSpeed, Mathf.Abs(JInput.HorizontalInput)));
 
-            // Splat
-            if (_player.LandingThisFrame)
+            // Detect ground color
+            var groundHit = Physics2D.Raycast(transform.position, Vector3.down, 2, _groundMask);
+            if (groundHit && groundHit.transform.TryGetComponent(out SpriteRenderer r))
             {
-                Animator.SetTrigger(GroundedKey);
-                if (_footsteps.Length > 0)
-                    _source.PlayOneShot(_footsteps[Random.Range(0, _footsteps.Length)]);
+                _currentGradient = new ParticleSystem.MinMaxGradient(r.color * 0.9f, r.color * 1.2f);
             }
 
-            // Jump effects
-            if (_player.JumpingThisFrame)
-            {
-                Animator.SetTrigger(JumpKey);
-                Animator.ResetTrigger(GroundedKey);
-
-                // Only play particles when grounded (avoid coyote)
-                if (_player.OnGround)
-                {
-                    _jumpParticles.Play();
-                }
-            }
-
-            // Play landing effects and begin ground movement effects
-            if (!_playerGrounded && _player.OnGround)
-            {
-                _playerGrounded = true;
-                _moveParticles.Play();
-                _landParticles.transform.localScale = Vector3.one * Mathf.InverseLerp(0, _maxParticleFallSpeed, _movement.y);
-                _landParticles.Play();
-            }
-            else if (_playerGrounded && !_player.OnGround)
-            {
-                _playerGrounded = false;
-                _moveParticles.Stop();
-            }
-
-            _movement = GetComponent<CharacterBody>().Rigidbody2D.velocity;
         }
 
+        public void SetSpriteRenderer(bool value)
+        {
+            _spriteRenderer.enabled = value;
+        }
+
+     
         private void OnDisable()
         {
             _moveParticles.Stop();
@@ -89,21 +118,12 @@ namespace Jumpy
             _moveParticles.Play();
         }
 
-        public void SetSpriteRenderer(bool value)
-        {
-            _spriteRenderer.enabled = value;
-        }
-
-        public void TriggerPlayerHit()
-        {
-            Animator.SetTrigger("Hit");
-        }
-
         #region Animation Keys
 
         private static readonly int GroundedKey = Animator.StringToHash("Grounded");
         private static readonly int IdleSpeedKey = Animator.StringToHash("IdleSpeed");
         private static readonly int JumpKey = Animator.StringToHash("Jump");
+        private static readonly int Hit = Animator.StringToHash("Hit");
 
         #endregion
     }

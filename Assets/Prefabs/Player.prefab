@@ -153,7 +153,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1350769205360984253
@@ -235,7 +235,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1350769205750246549
@@ -5085,18 +5085,18 @@ GameObject:
   m_Component:
   - component: {fileID: 1350769207068407785}
   - component: {fileID: 1350769206160553103}
+  - component: {fileID: 1350769206160553109}
+  - component: {fileID: 1350769206160553108}
   - component: {fileID: 1350769206160553104}
   - component: {fileID: 1350769206160553106}
   - component: {fileID: 1350769206160553107}
-  - component: {fileID: 1350769206160553108}
-  - component: {fileID: 1350769206160553109}
   - component: {fileID: 1350769205905202965}
   - component: {fileID: 1350769206160553110}
   - component: {fileID: 1350769206160553111}
   - component: {fileID: 1350769206160553112}
-  - component: {fileID: 1350769206160553113}
   - component: {fileID: 1996506185}
   - component: {fileID: 1996506196}
+  - component: {fileID: 4271455118156910360}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -5141,86 +5141,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!50 &1350769206160553104
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350769206160553114}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 2
-  m_SleepingMode: 0
-  m_CollisionDetection: 1
-  m_Constraints: 4
---- !u!114 &1350769206160553106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350769206160553114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b675cf3d7a08404baa08e6fd97a9e04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Animator: {fileID: 1350769206160553103}
-  _spriteRenderer: {fileID: 1350769206335720034}
-  _source: {fileID: 1350769206160553109}
-  _jumpParticles: {fileID: 1350769206327063522}
-  _moveParticles: {fileID: 1350769205813002365}
-  _landParticles: {fileID: 1350769206324461275}
-  _footsteps: []
-  _maxIdleSpeed: 2
-  _maxParticleFallSpeed: -40
---- !u!114 &1350769206160553107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350769206160553114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e8e6a24ad113946a139f1e68093155, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!61 &1350769206160553108
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350769206160553114}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.1225996, y: -0.1089772}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.2451992, y: 0.7820456}
-  m_EdgeRadius: 0
 --- !u!82 &1350769206160553109
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5317,6 +5237,86 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!61 &1350769206160553108
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350769206160553114}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.1225996, y: -0.1089772}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.2451992, y: 0.7820456}
+  m_EdgeRadius: 0
+--- !u!50 &1350769206160553104
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350769206160553114}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 2
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
+--- !u!114 &1350769206160553106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350769206160553114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b675cf3d7a08404baa08e6fd97a9e04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 1350769206160553103}
+  _spriteRenderer: {fileID: 1350769206335720034}
+  _source: {fileID: 1350769206160553109}
+  _jumpParticles: {fileID: 1350769206327063522}
+  _moveParticles: {fileID: 1350769205813002365}
+  _landParticles: {fileID: 1350769206324461275}
+  _footsteps: []
+  _maxIdleSpeed: 2
+  _maxParticleFallSpeed: -40
+--- !u!114 &1350769206160553107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350769206160553114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59e8e6a24ad113946a139f1e68093155, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1350769205905202965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5361,21 +5361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6299592c7e400bc4c8996e6ff57cb0dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnDie:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 11500000, guid: 88e6705fa3c311d49b11b5e993a79014, type: 3}
-        m_TargetAssemblyTypeName: RespawnSystem, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  DeathParticle: {fileID: 0}
 --- !u!114 &1350769206160553111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5388,26 +5374,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54dd5c61b01369c41bdde26d2c067ff4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _force: 0
+  showCursor: 0
+  SmoothDamping: 80
+  PowerAmount: []
+  IncreaseSpeed: 2.5
+  TimeToInit: 0.25
+  MaxAngle: 90
+  Camera: {fileID: 0}
   _offset: 5
   _angle: 0
   _firepoint: {fileID: 1350769206650518004}
-  _amount: 15
-  _currentLimit: 0
-  _nextLimit: 0
-  _maxLimit: 0
   _points:
   - {fileID: 1350769205930792522}
   - {fileID: 1350769206666390419}
   - {fileID: 1350769206022305007}
   - {fileID: 1350769206650518005}
   - {fileID: 1350769206744666172}
-  _direction: {x: 0, y: 0}
+  _currentPoint: 0
   _spaceButtonCounter: 0
-  _model: {fileID: 1350769206335720035}
-  JumpyController: {fileID: 1996506185}
+  _reduceScale: 0.8
   _spriteRenderer: {fileID: 1350769206335720034}
-  _jumpyAnimator: {fileID: 1350769206160553106}
+  CurrentPower: 0
+  wasShooted: 0
+  MouseControl: 1
+  startMousePosition: {x: 0, y: 0, z: 0}
 --- !u!114 &1350769206160553112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5424,14 +5414,6 @@ MonoBehaviour:
   timeBeetweenDestroy: 0.5
   prefab: {fileID: 2736066967295711117, guid: 2cebbf9c5cf881441ba4a209594c3295, type: 3}
   CharacterBody: {fileID: 1350769205905202965}
---- !u!81 &1350769206160553113
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350769206160553114}
-  m_Enabled: 1
 --- !u!114 &1996506185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5451,6 +5433,7 @@ MonoBehaviour:
   FacingRight: 0
   OnGround: 0
   _jumpHeight: 30
+  CanMove: 0
   CanWallJump: 0
   CanWallSlide: 0
   HighJumpScale: 8
@@ -5462,7 +5445,13 @@ MonoBehaviour:
   _bunnyHop: 10
   _nextBunnyHop: 0
   _bunnyHopRate: 0.25
-  _enableBunnyHop: 1
+  EnableBunnyHop: 0
+  limitVerticalSpeed: 0
+  BlockMoveOnAir: 0
+  EnableCoyoteTime: 0
+  EnableDoubleJump: 0
+  _jumpCounter: 0
+  MaxJumps: 0
 --- !u!114 &1996506196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5476,6 +5465,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _leaders: []
+--- !u!114 &4271455118156910360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350769206160553114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3288acfe49186694581e1282754fd503, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1350769206200679691
 GameObject:
   m_ObjectHideFlags: 0
@@ -10421,7 +10422,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1350769206324461278
@@ -20310,7 +20311,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1350769207265045652
@@ -20392,6 +20393,6 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0

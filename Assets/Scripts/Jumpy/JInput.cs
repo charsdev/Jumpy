@@ -5,6 +5,7 @@ namespace Jumpy
     public class JInput : MonoBehaviour
     {
         public static float HorizontalInput;
+        public static float VerticalInput;
         public static bool JumpDown;
         public static bool JumpUp;
         public static bool JumpHeld;
@@ -17,6 +18,7 @@ namespace Jumpy
             if (GameManager.Instance.CurrentStatus == GameManager.Status.GameInProgress && !GameManager.Instance.GameIsPaused)
             {
                 HorizontalInput = Input.GetAxisRaw("Horizontal");
+                VerticalInput = Input.GetAxisRaw("Vertical");
                 JumpDown = Input.GetKeyDown(KeyCode.W) || Input.GetButtonDown("Fire 1 Joystick"); //|| Input.GetKeyDown(KeyCode.UpArrow);
                 JumpHeld = Input.GetKey(KeyCode.W) || Input.GetButton("Fire 1 Joystick");//|| Input.GetKey(KeyCode.UpArrow); 
                 JumpUp = Input.GetKeyUp(KeyCode.W) || Input.GetButtonUp("Fire 1 Joystick"); // || Input.GetKeyUp(KeyCode.UpArrow);

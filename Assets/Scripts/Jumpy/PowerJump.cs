@@ -3,9 +3,7 @@ using Chars;
 
 namespace Jumpy
 {
-  
-
-    public class CannonBall : MonoBehaviour
+    public class PowerJump : MonoBehaviour
     {
         public bool showCursor = false;
         public float SmoothDamping = 80f;
@@ -37,10 +35,11 @@ namespace Jumpy
         private Squash _squash;
         private float _timeToNextPoint = 0.5f;
         public float CurrentPower;
-        public bool wasShooted;
+        public bool WasShooted;
         private JumpyController _jumpyController;
         private float CurrentVelocity;
         public bool MouseControl = true;
+        private float _timeFromShoot;
 
         private void Start()
         {
@@ -57,8 +56,9 @@ namespace Jumpy
 
         private void Update()
         {
-            _jumpyController.BlockMoveOnAir = wasShooted;
-            if (wasShooted) {
+
+            if (WasShooted)
+            {
                 return;
             }
 
@@ -74,7 +74,7 @@ namespace Jumpy
             if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.JoystickButton4))
             {
                 _rigidBody.velocity = _velocity;
-                wasShooted = true;
+                WasShooted = true;
                 Reset();
             }
         }
@@ -108,7 +108,6 @@ namespace Jumpy
             {
                 Vector3 mousePositionRespectPlayer = (Camera.ScreenToWorldPoint(Input.mousePosition) - transform.position);
                 float mouseAngle = Mathf.Atan2(mousePositionRespectPlayer.y, mousePositionRespectPlayer.x) * Mathf.Rad2Deg;
-
 
                 if (MouseControl)
                 {
@@ -144,7 +143,7 @@ namespace Jumpy
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton4)) {
 
                 _firepoint.transform.rotation = Quaternion.Euler(0, 0, _angle);
-                _jumpyController.CanMove = false;
+                _jumpyController.enabled = false;
 
                 if (_hasAnimator && _animator.enabled)
                 {
@@ -188,10 +187,10 @@ namespace Jumpy
             _direction = Vector3.zero;
             _targetScale = 1;
             _rigidBody.gravityScale = 8;
+            _jumpyController.enabled = true;
             SetLightOff();
             Squash(_targetScale);
             _angle = MaxAngle;
-            _jumpyController.CanMove = true;
             _firepoint.transform.rotation = Quaternion.Euler(0, 0, _angle);
         }
 
@@ -235,13 +234,18 @@ namespace Jumpy
             }
 
             _firepoint.gameObject.SetActive(false);
+
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (!enabled) return;
 
-            wasShooted = false;
+            if (WasShooted)
+            {
+                WasShooted = false;
+                _jumpyController.enabled = true;
+            }
 
             if (_hasEchoEffect)
                 _echoEffect.enabled = false;

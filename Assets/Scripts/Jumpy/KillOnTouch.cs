@@ -18,14 +18,13 @@ namespace Jumpy
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if (other.CompareTag("Player") && other.TryGetComponent(out Health health) && enabled)
+            if (other.CompareTag("Player") && other.TryGetComponent(out JumpyHealth health) && enabled)
             {
-                Debug.Log("hey");
-                health.Die();
                 var knockbackforce = DamageCausedKnockbackForce;
                 Vector2 relativePosition = other.transform.position - transform.position;
                 knockbackforce.x *= Mathf.Sign(relativePosition.x);
                 health.DoknockBack(knockbackforce);
+                health.Die();
             }
         }
     }

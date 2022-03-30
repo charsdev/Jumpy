@@ -18,7 +18,7 @@ public class DebugMode : MonoBehaviour
     public GameObject player;
     private int _maxLimit = 3;
     private JumpyController jumpyController;
-    private CannonBall jumpyCannonBall;
+    private PowerJump jumpyCannonBall;
 
     public Slider accel;
     public Slider deaccel;
@@ -33,20 +33,20 @@ public class DebugMode : MonoBehaviour
         if (player != null)
         {
             jumpyController = player.GetComponent<JumpyController>();
-            jumpyCannonBall = player.GetComponent<CannonBall>();
+            jumpyCannonBall = player.GetComponent<PowerJump>();
         }
 
         if (jumpyController != null)
         {
-            jumpyController.EnableBunnyHop = BunnyHop.isOn;
+            //jumpyController.EnableBunnyHop = BunnyHop.isOn;
 
-            float parseAccel = jumpyController.HorizontalAcceleration / 100;
-            accel.maxValue = 1.5f;
-            accel.value = parseAccel;
+            //float parseAccel = jumpyController.HorizontalAcceleration / 100;
+            //accel.maxValue = 1.5f;
+            //accel.value = parseAccel;
 
-            float parseDeAccel = jumpyController.HorizontalDecceleration / 100;
-            deaccel.maxValue = 1.5f;
-            deaccel.value = parseDeAccel;
+            //float parseDeAccel = jumpyController.HorizontalDecceleration / 100;
+            //deaccel.maxValue = 1.5f;
+            //deaccel.value = parseDeAccel;
         }
     }
 
@@ -87,16 +87,16 @@ public class DebugMode : MonoBehaviour
 
         if (jumpyController != null)
         {
-            jumpyController.EnableBunnyHop = BunnyHop.isOn;
+            //jumpyController.EnableBunnyHop = BunnyHop.isOn;
 
-            float accelValue = (accel.value * 100);
-            float deAccelValue = (deaccel.value * 100);
+            //float accelValue = (accel.value * 100);
+            //float deAccelValue = (deaccel.value * 100);
 
-            currentAccel.text = accelValue.ToString();
-            currentDeAccel.text = deAccelValue.ToString();
+            //currentAccel.text = accelValue.ToString();
+            //currentDeAccel.text = deAccelValue.ToString();
 
-            jumpyController.HorizontalAcceleration = accelValue;
-            jumpyController.HorizontalDecceleration = deAccelValue;
+            //jumpyController.HorizontalAcceleration = accelValue;
+            //jumpyController.HorizontalDecceleration = deAccelValue;
         }
 
         if (jumpyCannonBall != null)

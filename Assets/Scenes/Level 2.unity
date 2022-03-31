@@ -16029,7 +16029,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: dca908f187c0b6644a4705da7c099122, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b130eff56defd7444b2699f7972ff85a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20464,6 +20464,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 390560012}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+        m_MethodName: GotoLevel
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Menu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2048036626
 GameObject:
   m_ObjectHideFlags: 0
@@ -21354,7 +21366,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3146603472723745492, guid: 2bb0a7d7ada0bea47a1ca6df687e1c2b, type: 3}
       propertyPath: NextLevel
-      value: Level 3
+      value: Level Select
       objectReference: {fileID: 0}
     - target: {fileID: 3146603472723745492, guid: 2bb0a7d7ada0bea47a1ca6df687e1c2b, type: 3}
       propertyPath: CameraFollow
@@ -21827,6 +21839,7 @@ MonoBehaviour:
   FacingRight: 0
   Target: {fileID: 0}
   NeedTarget: 1
+  Animator: {fileID: 0}
 --- !u!50 &7072094992370669453
 Rigidbody2D:
   serializedVersion: 4

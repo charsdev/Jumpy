@@ -552,6 +552,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VirtualCamera: {fileID: 846040894}
+  OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!60 &61053328
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -1981,6 +1987,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VirtualCamera: {fileID: 797608546}
+  OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &257428226
 GameObject:
   m_ObjectHideFlags: 0
@@ -39686,7 +39698,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: dca908f187c0b6644a4705da7c099122, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b130eff56defd7444b2699f7972ff85a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -42470,6 +42482,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VirtualCamera: {fileID: 1773966080}
+  OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1378235803
 GameObject:
   m_ObjectHideFlags: 3
@@ -46832,6 +46850,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VirtualCamera: {fileID: 2063939243}
+  OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2002432604
 GameObject:
   m_ObjectHideFlags: 0
@@ -47146,6 +47170,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 390560012}
+        m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
+        m_MethodName: GotoLevel
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Menu
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &2051339369
@@ -47689,6 +47725,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VirtualCamera: {fileID: 325145881}
+  OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!212 &2087886803
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -48356,6 +48398,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3146603472723745492, guid: 2bb0a7d7ada0bea47a1ca6df687e1c2b, type: 3}
+      propertyPath: NextLevel
+      value: Level Select
+      objectReference: {fileID: 0}
     - target: {fileID: 3146603472723745495, guid: 2bb0a7d7ada0bea47a1ca6df687e1c2b, type: 3}
       propertyPath: m_Name
       value: FinishLevel
@@ -48519,6 +48565,7 @@ MonoBehaviour:
   FacingRight: 0
   Target: {fileID: 0}
   NeedTarget: 1
+  Animator: {fileID: 0}
 --- !u!50 &7072094992370669453
 Rigidbody2D:
   serializedVersion: 4

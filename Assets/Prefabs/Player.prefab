@@ -47,7 +47,7 @@ MonoBehaviour:
   _layerMask:
     serializedVersion: 2
     m_Bits: 128
-  _characterBody: {fileID: 1350769205905202965}
+  _rigidbody2D: {fileID: 1350769206160553104}
 --- !u!61 &876664171
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -145,15 +145,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: 181093df236fa7f4b8f1f06b2879e6f5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8a19bd9ceac7ef64da4dda190b3d8229, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1350769205360984253
@@ -227,15 +227,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: 181093df236fa7f4b8f1f06b2879e6f5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8a19bd9ceac7ef64da4dda190b3d8229, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1350769205750246549
@@ -5090,7 +5090,6 @@ GameObject:
   - component: {fileID: 1350769206160553104}
   - component: {fileID: 1350769206160553106}
   - component: {fileID: 1350769206160553107}
-  - component: {fileID: 1350769205905202965}
   - component: {fileID: 1350769206160553110}
   - component: {fileID: 1350769206160553111}
   - component: {fileID: 1350769206160553112}
@@ -5278,7 +5277,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 8
   m_Material: {fileID: 0}
   m_Interpolate: 2
   m_SleepingMode: 0
@@ -5296,15 +5295,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b675cf3d7a08404baa08e6fd97a9e04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 1350769206160553103}
   _spriteRenderer: {fileID: 1350769206335720034}
+  _anim: {fileID: 1350769206160553103}
   _source: {fileID: 1350769206160553109}
+  _groundMask:
+    serializedVersion: 2
+    m_Bits: 64
   _jumpParticles: {fileID: 1350769206327063522}
+  _launchParticles: {fileID: 0}
   _moveParticles: {fileID: 1350769205813002365}
   _landParticles: {fileID: 1350769206324461275}
-  _footsteps: []
+  _footsteps:
+  - {fileID: 8300000, guid: 5d94063f45167b04ab62585e436da58c, type: 3}
+  - {fileID: 8300000, guid: b5803c17557c59c40bf3a6d69cb46cb3, type: 3}
+  - {fileID: 8300000, guid: 1876767bf7cbf284394dc3817af9593c, type: 3}
   _maxIdleSpeed: 2
   _maxParticleFallSpeed: -40
+  _playerHealth: {fileID: 1350769206160553110}
 --- !u!114 &1350769206160553107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5317,38 +5324,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59e8e6a24ad113946a139f1e68093155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1350769205905202965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350769206160553114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf5e4163ec97bbf428d5df76d73025cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Sharpness: 16
-  RotationSpeed: 5
-  useRigidBodyGravityScale: 1
-  CurrentSide: 0
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 192
-  OnAbove: 0
-  OnGround: 0
-  OnWall: 0
-  OnRightWall: 0
-  OnLeftWall: 0
-  wallSide: 0
-  collisionRadius: 0.25
-  DebugCollisionColor: {r: 1, g: 0, b: 0, a: 1}
-  OffsetLength: 0.5
-  GravityVector: {x: 0, y: 0}
-  GravityAcceleration: -9.8
-  GravityModifier: 8
-  angle: 0
 --- !u!114 &1350769206160553110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5361,7 +5336,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6299592c7e400bc4c8996e6ff57cb0dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeathParticle: {fileID: 0}
+  OnHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1350769206160553111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5376,7 +5353,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   showCursor: 0
   SmoothDamping: 80
-  PowerAmount: []
+  PowerAmount:
+  - 30
+  - 35
+  - 40
+  - 45
+  - 50
   IncreaseSpeed: 2.5
   TimeToInit: 0.25
   MaxAngle: 90
@@ -5395,7 +5377,7 @@ MonoBehaviour:
   _reduceScale: 0.8
   _spriteRenderer: {fileID: 1350769206335720034}
   CurrentPower: 0
-  wasShooted: 0
+  WasShooted: 0
   MouseControl: 1
   startMousePosition: {x: 0, y: 0, z: 0}
 --- !u!114 &1350769206160553112
@@ -5405,7 +5387,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350769206160553114}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d179248c68b8de046a3ba62a5286ba37, type: 3}
   m_Name: 
@@ -5413,7 +5395,6 @@ MonoBehaviour:
   startTimeBeetweenSpawns: 0.05
   timeBeetweenDestroy: 0.5
   prefab: {fileID: 2736066967295711117, guid: 2cebbf9c5cf881441ba4a209594c3295, type: 3}
-  CharacterBody: {fileID: 1350769205905202965}
 --- !u!114 &1996506185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5426,32 +5407,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e17e83b285e5824b8be5502c25e739d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterData: {fileID: 0}
-  CharacterBody: {fileID: 1350769205905202965}
-  CharacterRenderer: {fileID: 1350769206335720034}
-  CharacterModel: {fileID: 1350769206335720035}
-  FacingRight: 0
-  OnGround: 0
-  _jumpHeight: 30
-  CanMove: 0
-  CanWallJump: 0
-  CanWallSlide: 0
-  HighJumpScale: 8
-  LowJumpScale: 21
-  ClampHorizontalSpeed: 13
-  ClampVerticalSpeed: -40
-  HorizontalAcceleration: 90
-  HorizontalDecceleration: 60
+  TimeOnAir: 0
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _detectorCount: 3
+  _detectionRayLength: 0.1
+  _acceleration: 90
+  _moveClamp: 13
+  _deAcceleration: 60
+  _apexBonus: 2
+  CanBunnyHop: 1
   _bunnyHop: 10
   _nextBunnyHop: 0
   _bunnyHopRate: 0.25
-  EnableBunnyHop: 0
-  limitVerticalSpeed: 0
-  BlockMoveOnAir: 0
-  EnableCoyoteTime: 0
-  EnableDoubleJump: 0
-  _jumpCounter: 0
-  MaxJumps: 0
+  _minFallSpeed: 8
+  _maxFallSpeed: 12
+  _jumpHeight: 30
+  _jumpApexThreshold: 10
+  _coyoteTimeThreshold: 7
+  _jumpBuffer: 7
 --- !u!114 &1996506196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10413,16 +10388,16 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: 181093df236fa7f4b8f1f06b2879e6f5, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: 8a19bd9ceac7ef64da4dda190b3d8229, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1350769206324461278
@@ -20303,15 +20278,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: 181093df236fa7f4b8f1f06b2879e6f5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8a19bd9ceac7ef64da4dda190b3d8229, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &1350769207265045652
@@ -20385,14 +20360,14 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: 181093df236fa7f4b8f1f06b2879e6f5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8a19bd9ceac7ef64da4dda190b3d8229, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0

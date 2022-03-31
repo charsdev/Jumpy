@@ -7,19 +7,14 @@ public class JumpyHealth : MonoBehaviour
 {
     private Rigidbody2D _rigidbody2D;
     private bool _death;
-    public ParticleSystem DeathParticle;
     private JumpyController _jumpyController;
     private JumpyAnimator _jumpyAnimator;
 
     [HideInInspector]
     public UnityEvent OnHit;
 
-    private int counterCorroutine;
-
-
     public void Start()
     {
-        //DeathParticle?.Stop();
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _jumpyController = GetComponent<JumpyController>();
         _jumpyAnimator = GetComponent<JumpyAnimator>();
@@ -48,7 +43,6 @@ public class JumpyHealth : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
 
         _jumpyAnimator.SetSpriteRenderer(false);
-        //DeathParticle.Play();
         EventManager.TriggerEvent("FadeIn", new FadeEventParams(1f), this);
 
         yield return new WaitForSeconds(1f);

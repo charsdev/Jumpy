@@ -5,6 +5,14 @@ namespace Chars
 {
     public class EnemyFollow : EnemyControllerBase
     {
+        public Animator Animator;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            Animator = GetComponent<Animator>();
+        }
+
         protected override void EnemyAILogic()
         {
             if (Target == null) return;
@@ -23,6 +31,8 @@ namespace Chars
 
             if (hit)
             {
+                Animator.SetBool("Running", true);
+
                 CharacterBody.Rigidbody2D.velocity = Vector2.MoveTowards(
                     CharacterBody.Rigidbody2D.velocity, 
                     new Vector2(
@@ -30,6 +40,10 @@ namespace Chars
                         CharacterBody.Rigidbody2D.velocity.y),
                         CharacterData.Speed * Time.deltaTime
                     );
+            }
+            else
+            {
+                Animator.SetBool("Running", false);
             }
 
             if (Target.transform.position.x < gameObject.transform.position.x && FacingRight)

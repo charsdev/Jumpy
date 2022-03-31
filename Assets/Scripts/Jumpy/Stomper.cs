@@ -9,7 +9,7 @@ using Chars.Tools;
 public class Stomper : MonoBehaviour
 {
     [SerializeField] private LayerMask _layerMask;
-    [SerializeField] private CharacterBody _characterBody;
+    [SerializeField] private Rigidbody2D _rigidbody2D;
 
     private void Start() {}
     private void Update() {}
@@ -23,8 +23,8 @@ public class Stomper : MonoBehaviour
         {
             killeable.Die();
 
-            _characterBody.Rigidbody2D.velocity = Vector2.zero; //force velocity 0;
-            _characterBody.Rigidbody2D.velocity += (Vector2)_characterBody.Up * 30f;
+            _rigidbody2D.velocity = Vector2.zero; //force velocity 0;
+            _rigidbody2D.velocity += (Vector2)transform.up * 30f;
         }
 
         if (other.CompareTag("Boss"))

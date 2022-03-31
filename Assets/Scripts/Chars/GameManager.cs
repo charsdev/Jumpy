@@ -16,14 +16,19 @@ public class GameManager : Singleton<GameManager>
     public bool CreatePlayer;
     public int Score;
     public bool canPause;
+    public Camera mainCamera;
 
     protected override void Awake()
     {
         base.Awake();
+
+        mainCamera = Camera.main;
+
         if (!CreatePlayer)
         {
             player = GameObject.FindWithTag("Player");
         }
+
         Cursor.lockState = CursorLockMode.None;
     }
 

@@ -8,7 +8,6 @@ namespace Chars
         public float startTimeBeetweenSpawns;
         public float timeBeetweenDestroy = 8f;
         public GameObject prefab;
-        public CharacterBody CharacterBody;
 
         private void Update()
         {

@@ -43,6 +43,7 @@ namespace Jumpy
 
         private void Start()
         {
+            Camera = GameManager.Instance.mainCamera;
             _rigidBody = GetComponent<Rigidbody2D>();
             _jumpyController = GetComponent<JumpyController>();
             _hasEchoEffect = TryGetComponent(out _echoEffect);

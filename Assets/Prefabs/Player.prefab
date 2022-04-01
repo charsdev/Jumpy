@@ -5379,7 +5379,7 @@ MonoBehaviour:
   CurrentPower: 0
   WasShooted: 0
   MouseControl: 1
-  startMousePosition: {x: 0, y: 0, z: 0}
+  startMousePosition: 0
 --- !u!114 &1350769206160553112
 MonoBehaviour:
   m_ObjectHideFlags: 0

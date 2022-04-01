@@ -12,7 +12,7 @@ namespace Jumpy
         public float IncreaseSpeed = 2.5f;
         public float TimeToInit = 0.25f;
         public int MaxAngle = 90;
-        public Camera Camera;
+        [HideInInspector] public Camera Camera;
 
         [SerializeField] private float _offset;
         [SerializeField] private float _angle;
@@ -37,7 +37,7 @@ namespace Jumpy
         public float CurrentPower;
         public bool WasShooted;
         private JumpyController _jumpyController;
-        private float CurrentVelocity;
+        private float _currentVelocity;
         public bool MouseControl = true;
         private float _timeFromShoot;
 
@@ -101,17 +101,14 @@ namespace Jumpy
             return result;
         }
 
-        public Vector3 startMousePosition;
-
         private void SetAngle()
         {
             if (Camera != null && _firepoint.gameObject.activeInHierarchy)
             {
-                Vector3 mousePositionRespectPlayer = (Camera.ScreenToWorldPoint(Input.mousePosition) - transform.position);
-                float mouseAngle = Mathf.Atan2(mousePositionRespectPlayer.y, mousePositionRespectPlayer.x) * Mathf.Rad2Deg;
-
                 if (MouseControl)
                 {
+                    Vector3 mousePositionRespectPlayer = (Camera.ScreenToWorldPoint(Input.mousePosition) - transform.position);
+                    float mouseAngle = Mathf.Atan2(mousePositionRespectPlayer.y, mousePositionRespectPlayer.x) * Mathf.Rad2Deg;
                     _angle = mouseAngle;
                 }
                 else
@@ -128,10 +125,6 @@ namespace Jumpy
                     _angle -= Input.GetAxis("RightJoystick") * 200f * Time.deltaTime;
                 }
 
-                if (Mathf.Abs(Input.GetAxis("RightJoystick")) > 0)
-                {
-                }
-
                 if (_hasAnimator && !_animator.enabled && _spriteRenderer != null)
                     _spriteRenderer.flipX = _angle > MaxAngle;
             }
@@ -140,6 +133,8 @@ namespace Jumpy
         private void Charge()
         {
             _velocity = new Vector2(CurrentPower * _direction.x, CurrentPower * _direction.y);
+
+            MouseControl = Input.GetKey(KeyCode.Space);
 
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton4)) {
 

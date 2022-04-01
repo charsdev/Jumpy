@@ -12,7 +12,9 @@ public class EnterLevelZone : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && OnZone)
+        if ((Input.GetButtonDown("Fire 1 Joystick") || 
+            Input.GetKeyDown(KeyCode.Space) || 
+            Input.GetKeyDown(KeyCode.Return)) && OnZone)
         {
             SceneManager.LoadScene(LevelName);
             PlayerPrefs.SetString("LastWaypoint", gameObject.name);

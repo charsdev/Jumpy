@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
 
 public enum Direction
@@ -17,11 +16,8 @@ public class Walker : MonoBehaviour
     [SerializeField] private Waypoint _currentWaypoint;
     public Node InitialNode;
     public float Speed;
-    private List<KeyCode> _keybiding = new List<KeyCode>();
-    private Dictionary<KeyCode, Direction> _keycodeToDirection = new Dictionary<KeyCode, Direction>();
     public bool FacingRight;
     [HideInInspector] public Waypoint LastWaypoint;
-    //private float initialScaleX; 
     public SpriteRenderer spriteRenderer;
 
     private void Awake()
@@ -40,10 +36,8 @@ public class Walker : MonoBehaviour
         }
     }
 
-    public void Start()
+    private void Start()
     {
-        BindKeys();
-
         if (InitialNode == null) return;
 
         transform.position = InitialNode.position;
@@ -52,60 +46,30 @@ public class Walker : MonoBehaviour
         {
             _currentWaypoint = waypoint;
         }
-
     }
 
-    private void BindKeys()
+    private void Update()
     {
-        _keybiding.Add(KeyCode.W);
-        _keybiding.Add(KeyCode.S);
-        _keybiding.Add(KeyCode.D);
-        _keybiding.Add(KeyCode.A);
-        _keybiding.Add(KeyCode.UpArrow);
-        _keybiding.Add(KeyCode.DownArrow);
-        _keybiding.Add(KeyCode.LeftArrow);
-        _keybiding.Add(KeyCode.RightArrow);
-        _keybiding.Add(KeyCode.JoystickButton8);
-        _keybiding.Add(KeyCode.JoystickButton7);
-        _keybiding.Add(KeyCode.JoystickButton5);
-        _keybiding.Add(KeyCode.JoystickButton6);
-
-        _keycodeToDirection.Add(KeyCode.W, Direction.UP);
-        _keycodeToDirection.Add(KeyCode.S, Direction.DOWN);
-        _keycodeToDirection.Add(KeyCode.A, Direction.LEFT);
-        _keycodeToDirection.Add(KeyCode.D, Direction.RIGHT);
-
-        _keycodeToDirection.Add(KeyCode.UpArrow, Direction.UP);
-        _keycodeToDirection.Add(KeyCode.DownArrow, Direction.DOWN);
-        _keycodeToDirection.Add(KeyCode.LeftArrow, Direction.LEFT);
-        _keycodeToDirection.Add(KeyCode.RightArrow, Direction.RIGHT);
-
-        _keycodeToDirection.Add(KeyCode.JoystickButton8, Direction.RIGHT);
-        _keycodeToDirection.Add(KeyCode.JoystickButton7, Direction.LEFT);
-        _keycodeToDirection.Add(KeyCode.JoystickButton5, Direction.UP);
-        _keycodeToDirection.Add(KeyCode.JoystickButton6, Direction.DOWN);
-    }
-
-    public void Update()
-    {
-        foreach (KeyCode keyCode in _keybiding)
+        if (Input.GetAxis("Horizontal") > 0)
         {
-            if (!_keycodeToDirection.ContainsKey(keyCode)) return;
+            MoveTo(Direction.RIGHT);
+        }
+        else if (Input.GetAxis("Horizontal") < 0)
+        {
+            MoveTo(Direction.LEFT);
+        }
+    }
 
-            if (Input.GetKeyDown(keyCode))
+    private void MoveTo(Direction direction)
+    {
+        if (_currentWaypoint != null)
+        {
+            _currentPath = _currentWaypoint.GetPath(direction);
+
+            if (_currentPath != null && _currentPath.Direction == direction)
             {
-                var direction = _keycodeToDirection[keyCode];
-                /// rethink logic i dont like null comparision
-                if (_currentWaypoint != null)
-                {
-                    _currentPath = _currentWaypoint.GetPath(direction);
-
-                    if (_currentPath != null && _currentPath.Direction == direction)
-                    {
-                        StopAllCoroutines();
-                        StartCoroutine(MoveAlongPath(_currentPath));
-                    }
-                }
+                StopAllCoroutines();
+                StartCoroutine(MoveAlongPath(_currentPath));
             }
         }
     }
@@ -126,14 +90,11 @@ public class Walker : MonoBehaviour
         {
             FacingRight = false;
             spriteRenderer.flipX = true;
-
-            //transform.localScale = new Vector3(-initialScaleX, transform.localScale.y, transform.localScale.z);
         }
         else if (diff > 0 && !FacingRight)
         {
             FacingRight = true;
             spriteRenderer.flipX = false;
-            //transform.localScale = new Vector3(initialScaleX, transform.localScale.y, transform.localScale.z);
         }
 
         while (currentNode != end)
@@ -156,7 +117,5 @@ public class Walker : MonoBehaviour
 
            yield return null;
         }
-
     }
-
 }

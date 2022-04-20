@@ -298,6 +298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InputBuffer: []
+  InputBufferDebug: []
   TextPrefab: {fileID: 681028150091189164, guid: c0fdc7049b286b34a863ca0152288edf, type: 3}
   KeysPanel: {fileID: 1645427708}
   canvas: {fileID: 1895360803}
@@ -2532,28 +2533,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e17e83b285e5824b8be5502c25e739d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CharacterData: {fileID: 0}
-  CharacterBody: {fileID: 1350769206239542646}
-  CharacterRenderer: {fileID: 1350769206011422721}
-  CharacterModel: {fileID: 1350769206011422720}
-  FacingRight: 0
-  OnGround: 0
-  _jumpHeight: 30
-  CanMove: 1
-  CanWallJump: 0
-  CanWallSlide: 0
-  HighJumpScale: 8
-  LowJumpScale: 21
-  ClampHorizontalSpeed: 13
-  ClampVerticalSpeed: -40
-  HorizontalAcceleration: 90
-  HorizontalDecceleration: 60
+  TimeOnAir: 0
+  distanceFromGround: 0
+  CanMove: 0
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  _detectorCount: 3
+  _detectionRayLength: 0.1
+  _hittingCeiling: 0
+  _grounded: 0
+  _colRight: 0
+  _colLeft: 0
+  _acceleration: 90
+  _moveClamp: 13
+  _deAcceleration: 60
+  _apexBonus: 2
+  CanBunnyHop: 1
   _bunnyHop: 10
   _nextBunnyHop: 0
   _bunnyHopRate: 0.25
-  EnableBunnyHop: 1
-  limitVerticalSpeed: 1
-  BlockMoveOnAir: 0
+  _isBunnyHopping: 0
+  _minFallSpeed: 8
+  _maxFallSpeed: 12
+  _jumpHeight: 30
+  _jumpApexThreshold: 10
+  _coyoteTimeThreshold: 7
+  _jumpBuffer: 7
 --- !u!1 &1714760206
 GameObject:
   m_ObjectHideFlags: 0
@@ -13045,8 +13051,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b675cf3d7a08404baa08e6fd97a9e04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 0}
   _spriteRenderer: {fileID: 1350769206011422721}
+  _anim: {fileID: 0}
   _source: {fileID: 1350769205951715062}
   _jumpParticles: {fileID: 1350769205986496897}
   _moveParticles: {fileID: 1350769205492900382}
@@ -13054,6 +13060,7 @@ MonoBehaviour:
   _footsteps: []
   _maxIdleSpeed: 2
   _maxParticleFallSpeed: -40
+  _playerHealth: {fileID: 0}
 --- !u!50 &1350769205951715059
 Rigidbody2D:
   serializedVersion: 4
@@ -13113,9 +13120,9 @@ MonoBehaviour:
   _reduceScale: 0.55
   _spriteRenderer: {fileID: 0}
   CurrentPower: 0
-  wasShooted: 0
-  MouseControl: 1
-  startMousePosition: {x: 0, y: 0, z: 0}
+  isCharging: 0
+  WasShooted: 0
+  MouseControl: 0
 --- !u!82 &1350769205951715062
 AudioSource:
   m_ObjectHideFlags: 0
@@ -13270,7 +13277,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350769205951715065}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3288acfe49186694581e1282754fd503, type: 3}
   m_Name: 

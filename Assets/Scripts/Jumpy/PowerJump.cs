@@ -35,11 +35,10 @@ namespace Jumpy
         private Squash _squash;
         private float _timeToNextPoint = 0.5f;
         public float CurrentPower;
+        public bool isCharging;
         public bool WasShooted;
         private JumpyController _jumpyController;
-        private float _currentVelocity;
-        public bool MouseControl = true;
-        private float _timeFromShoot;
+        public bool MouseControl = false;
 
         private void Start()
         {
@@ -55,19 +54,35 @@ namespace Jumpy
             _angle = MaxAngle;
         }
 
+        private Vector3 mouseDelta;
+
+
+        private void FixedUpdate()
+        {
+            if (!_jumpyController.Grounded && WasShooted)
+            {
+                _jumpyController.CanMove = false;
+            }
+            else if (!isCharging)
+            {
+                _jumpyController.CanMove = true;
+            }
+        }
+
         private void Update()
         {
+            if (WasShooted) return;
+            if (!_jumpyController.Grounded) return;
 
-            if (WasShooted)
-            {
-                return;
-            }
+            mouseDelta = new Vector3(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"), 0);
 
             Charge();
             SetDirection();
             SetAngle();
             LockFirepoint();
             Shoot();
+
+            
         }
 
         private void Shoot()
@@ -76,6 +91,7 @@ namespace Jumpy
             {
                 _rigidBody.velocity = _velocity;
                 WasShooted = true;
+                isCharging = false;
                 Reset();
             }
         }
@@ -134,18 +150,17 @@ namespace Jumpy
         {
             _velocity = new Vector2(CurrentPower * _direction.x, CurrentPower * _direction.y);
 
-            MouseControl = Input.GetKey(KeyCode.Space);
-
+            MouseControl = Mathf.Abs(mouseDelta.sqrMagnitude) > 0;
+            
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton4)) {
-
                 _firepoint.transform.rotation = Quaternion.Euler(0, 0, _angle);
-                _jumpyController.enabled = false;
-
+                _jumpyController.CanMove = false;
+                isCharging = true;
                 if (_hasAnimator && _animator.enabled)
                 {
                     _animator.enabled = false;
                 }
-            }  
+            }
 
             if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.JoystickButton4)) 
             {
@@ -175,7 +190,6 @@ namespace Jumpy
                 _echoEffect.enabled = true;
 
             _currentPoint = 0;
-
             _timeToNextPoint = 0.5f;
             CurrentPower = 0;
             _spaceButtonCounter = 0;
@@ -183,11 +197,11 @@ namespace Jumpy
             _direction = Vector3.zero;
             _targetScale = 1;
             _rigidBody.gravityScale = 8;
-            _jumpyController.enabled = true;
             SetLightOff();
             Squash(_targetScale);
             _angle = MaxAngle;
             _firepoint.transform.rotation = Quaternion.Euler(0, 0, _angle);
+            //_jumpyController.CanMove = true;
         }
 
         private void Squash(float value)
@@ -240,7 +254,7 @@ namespace Jumpy
             if (WasShooted)
             {
                 WasShooted = false;
-                _jumpyController.enabled = true;
+                _jumpyController.CanMove = true;
             }
 
             if (_hasEchoEffect)
@@ -251,7 +265,6 @@ namespace Jumpy
                 _animator.enabled = true;
             }
         }
+
     }
-
-
 }

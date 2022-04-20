@@ -1,11 +1,21 @@
 using Jumpy;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DebugMode : MonoBehaviour
 {
+    [System.Serializable]
+    public class KeycodeDebug
+    {
+        public string keycode;
+        public float time;
+    }
+
     public List<string> InputBuffer;
+    public List<KeycodeDebug> InputBufferDebug;
+
     private List<GameObject> textInputs = new List<GameObject>();
 
     public GameObject TextPrefab;
@@ -61,6 +71,7 @@ public class DebugMode : MonoBehaviour
             {
                 InputBuffer.Add(key);
                 AddKeyText(key);
+                AddKeyDebug(key, Time.time);
 
                 if (InputBuffer.Count > _maxLimit)
                 {
@@ -75,10 +86,10 @@ public class DebugMode : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            canvas.alpha = canvas.alpha != 0 ? 0 : 1;
-        }
+        //if (Input.GetKeyDown(KeyCode.H))
+        //{
+        //    canvas.alpha = canvas.alpha != 0 ? 0 : 1;
+        //}
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -99,8 +110,8 @@ public class DebugMode : MonoBehaviour
             //jumpyController.HorizontalDecceleration = deAccelValue;
         }
 
-        if (jumpyCannonBall != null)
-            jumpyCannonBall.MouseControl = MouseControl.value == 0;
+        //if (jumpyCannonBall != null)
+        //    jumpyCannonBall.MouseControl = MouseControl.value == 0;
 
 
     }
@@ -112,6 +123,18 @@ public class DebugMode : MonoBehaviour
         textInputs.Add(go);
     }
 
- 
+    public void AddKeyDebug(string keyString, float time)
+    {
+        KeycodeDebug keycodeDebug = new KeycodeDebug();
+        keycodeDebug.keycode = keyString;
+        keycodeDebug.time = time;
+        var json = JsonUtility.ToJson(keycodeDebug);
+        File.AppendAllText(Application.dataPath + "/save.txt", json);
+    }
+
+    private void OnDisable()
+    {
+    
+    }
 
 }

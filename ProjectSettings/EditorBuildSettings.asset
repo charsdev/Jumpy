@@ -5,25 +5,25 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/PowerJumpTest.unity
     guid: 2b806a5eb550869429149f58836ead22
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Intro.unity
     guid: 18bd54ef44523a8469d71efab8dbf13d
-  - enabled: 1
-    path: Assets/Scenes/menu.unity
+  - enabled: 0
+    path: Assets/Scenes/Menu.unity
     guid: e19deb9c2747744409208181c8e24b29
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Level Select.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Level 1.unity
     guid: 6a43acf7279c62b479c8e587df3da2ee
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Level 2.unity
     guid: 91df97e70a6e17247ab3cf93666536de
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Level 3.unity
     guid: 9eba5796e15c241419f017d82e0b99b0
   m_configObjects: {}

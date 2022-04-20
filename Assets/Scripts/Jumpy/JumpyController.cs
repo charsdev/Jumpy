@@ -20,9 +20,12 @@ namespace Jumpy
         private float _currentHorizontalSpeed, _currentVerticalSpeed;
         private int _fixedFrame;
         public float TimeOnAir;
+        public float distanceFromGround;
+        public bool CanMove;
 
         private void Awake()
         {
+            CanMove = true;
             _rb = GetComponent<Rigidbody2D>();
             _collider = GetComponent<BoxCollider2D>();
         }
@@ -32,7 +35,6 @@ namespace Jumpy
             // Calculate velocity
             _velocity = (transform.position - _lastPosition) / Time.deltaTime;
             _lastPosition = transform.position;
-
             GatherInput();
         }
 
@@ -42,11 +44,14 @@ namespace Jumpy
 
             RunCollisionChecks();
             CalculateGravity();
+            if (!CanMove) return;
+
             CalculateWalk();
             CalculateJumpApex();
+            CalculateBunnyHop();
             CalculateJump();
             RunCornerPrevention();
-            CalculateBunnyHop();
+
         }
 
 
@@ -83,7 +88,7 @@ namespace Jumpy
 
         private RayRange _raysUp, _raysRight, _raysDown, _raysLeft;
 
-        private bool _hittingCeiling, _grounded, _colRight, _colLeft;
+        public bool _hittingCeiling, _grounded, _colRight, _colLeft;
 
         private float _timeLeftGrounded;
 
@@ -103,7 +108,6 @@ namespace Jumpy
             else if (!_grounded && groundedCheck)
             {
                 TimeOnAir = 0;
-
                 _coyoteUsable = true; // Only trigger when first touching
                 _executedBufferedJump = false;
                 OnGroundedChanged?.Invoke(true);
@@ -112,6 +116,10 @@ namespace Jumpy
             if (!_grounded)
             {
                 TimeOnAir += Time.deltaTime;
+            }
+            else
+            {
+                _isBunnyHopping = false;
             }
 
             _grounded = groundedCheck;
@@ -135,7 +143,7 @@ namespace Jumpy
             _raysRight = new RayRange(b.max.x, b.min.y, b.max.x, b.max.y, Vector2.right);
         }
 
-
+          
         private IEnumerable<Vector2> EvaluateRayPositions(RayRange range)
         {
             for (var i = 0; i < _detectorCount; i++)
@@ -173,7 +181,7 @@ namespace Jumpy
 
         private void CalculateWalk()
         {
-            if (JInput.HorizontalInput != 0)
+            if (JInput.HorizontalInput != 0 )
             {
                 // Set horizontal move speed
                 _currentHorizontalSpeed += JInput.HorizontalInput * _acceleration * Time.fixedDeltaTime;
@@ -208,10 +216,11 @@ namespace Jumpy
 
         #region BunnyHop
 
-        [Header("BUNNY HOP")] [SerializeField] private bool CanBunnyHop;
+        [Header("BUNNY HOP")] [SerializeField] public bool CanBunnyHop;
         [SerializeField] private float _bunnyHop = 10f;
         [SerializeField] private float _nextBunnyHop;
         [SerializeField] private float _bunnyHopRate = 0.5f;
+        [SerializeField] private bool _isBunnyHopping = false;
 
         private void CalculateBunnyHop()
         {
@@ -220,11 +229,10 @@ namespace Jumpy
 
             if (Grounded && Time.time >= _nextBunnyHop && CanBunnyHop)
             {
+                _isBunnyHopping = true;
                 _nextBunnyHop = Time.time + _bunnyHopRate;
-
                 _currentVerticalSpeed = _bunnyHop;
-                _rb.velocity += (Vector2)transform.up * _currentVerticalSpeed;
-
+                ExecuteJump();
             }
         }
         #endregion
@@ -266,6 +274,7 @@ namespace Jumpy
         private bool CanUseCoyote => _coyoteUsable && !_grounded && _timeLeftGrounded + _coyoteTimeThreshold > _fixedFrame;
         private bool HasBufferedJump => (_grounded || _cornerStuck) && _lastJumpPressed + _jumpBuffer > _fixedFrame && !_executedBufferedJump;
 
+
         private void CalculateJumpApex()
         {
             if (!_grounded)
@@ -284,17 +293,27 @@ namespace Jumpy
             if ((_jumpToConsume && CanUseCoyote) || HasBufferedJump)
             {
                 _currentVerticalSpeed = _jumpHeight;
-                _rb.velocity = Vector2.zero;
-                _rb.velocity += (Vector2)transform.up * _currentVerticalSpeed;
+                
+                //if (_isBunnyHopping)
+                //{
+                //    _currentVerticalSpeed = _jumpHeight - _bunnyHop;
+                //}
 
                 _coyoteUsable = false;
                 _jumpToConsume = false;
                 _timeLeftGrounded = _fixedFrame;
                 _executedBufferedJump = true;
                 OnJumping?.Invoke();
+                ExecuteJump();
             }
-
             if (_hittingCeiling && _currentVerticalSpeed > 0) _currentVerticalSpeed = 0;
+
+        }
+
+        private void ExecuteJump()
+        {
+            _rb.velocity = new Vector2(_rb.velocity.x, 0); //Vector2.zero;
+            _rb.velocity += (Vector2)transform.up * _currentVerticalSpeed;
         }
 
         #endregion
